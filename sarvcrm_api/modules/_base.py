@@ -1,4 +1,3 @@
-from sarvcrm_api import SarvClient
 from sarvcrm_api.type_hints import SarvGetMethods
 
 class SarvModule:
@@ -7,6 +6,7 @@ class SarvModule:
     _label_pr = 'کلاس اصلی'
 
     def __init__(self, _client):
+        from sarvcrm_api import SarvClient
         self._client: SarvClient = _client
 
     def _create_get_parms(self,method:SarvGetMethods) -> dict:
