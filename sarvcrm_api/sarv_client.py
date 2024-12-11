@@ -34,7 +34,7 @@ class SarvClient(ModulesMixin):
         if is_password_md5 == True:
             self.password = password
         else:
-            self.password  = hashlib.md5(password.encode()).hexdigest()
+            self.password  = hashlib.md5(password.encode('utf-8')).hexdigest()
 
         self.token: str = ''
 
@@ -49,20 +49,25 @@ class SarvClient(ModulesMixin):
             ) -> dict:
         """Send a request to the Sarv API and returns the data parameter of the response"""
 
+        requests_method = requests_method_map.get(method, None)
+
         head_parms = head_parms or {}
         get_parms = get_parms or {}
         post_parms = post_parms or {}
 
         head_parms['Content-Type'] = 'application/json'
-        head_parms['Authorization'] = f'Bearer {self.token}' if self.token else ''
 
-        requests_method = requests_method_map.get(method, None)
+        if self.token:
+            head_parms['Authorization'] = f'Bearer {self.token}'
+
+        if not requests_method:
+            raise TypeError(f'This request method is not valid http method: {method}')
 
         response:requests.Response = requests_method(
             url = self.base_url,
-            params= get_parms,
+            params = get_parms,
             headers = head_parms, 
-            data = post_parms,
+            json = post_parms,
             verify = True,
             )
 
@@ -78,7 +83,6 @@ class SarvClient(ModulesMixin):
 
         # Initiate server response
         if 200 <= response.status_code < 300:
-            # return on clean server responses
             data = response_dict.get('data', {})
             return data
 
@@ -95,10 +99,10 @@ class SarvClient(ModulesMixin):
     def login(self) -> str:
         """Authenticate the user and retrieve a token."""
 
-        get_parms = {'method': 'login'}
+        get_parms = {'method': 'Login'}
         post_parms = {
             'utype': self.utype,
-            'username': self.username,
+            'user_name': self.username,
             'password': self.password,
             'login_type': self.login_type,
             'language': self.language,
