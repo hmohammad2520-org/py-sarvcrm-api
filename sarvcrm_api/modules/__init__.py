@@ -39,6 +39,8 @@ from .tasks import Tasks
 from .timesheet import Timesheet
 from .vendors import Vendors
 
+from ._map import module_map
+
 __all__ = [
     'Accounts',
     'AosContracts',
@@ -80,4 +82,6 @@ __all__ = [
     'Tasks',
     'Timesheet',
     'Vendors',
+
+    'module_map',
 ]
