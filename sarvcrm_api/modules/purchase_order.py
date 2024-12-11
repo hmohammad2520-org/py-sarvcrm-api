@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class PurchaseOrder(SarvModule):
-    module_name = 'Purchase_Order'
-    label_en = 'Purchase Order'
-    label_pr = 'سفارش خرید'
+    _module_name = 'Purchase_Order'
+    _label_en = 'Purchase Order'
+    _label_pr = 'سفارش خرید'

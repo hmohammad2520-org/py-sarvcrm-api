@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Contacts(SarvModule):
-    module_name = 'Contacts'
-    label_en = 'Contacts'
-    label_pr = 'افراد'
+    _module_name = 'Contacts'
+    _label_en = 'Contacts'
+    _label_pr = 'افراد'

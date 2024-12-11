@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class ScCompetitor(SarvModule):
-    module_name = 'sc_competitor'
-    label_en = 'Competitor'
-    label_pr = 'رقبا'
+    _module_name = 'sc_competitor'
+    _label_en = 'Competitor'
+    _label_pr = 'رقبا'

@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Bugs(SarvModule):
-    module_name = 'Bugs'
-    label_en = 'Bug Tracker'
-    label_pr = 'پیگیری ایرادهای محصول'
+    _module_name = 'Bugs'
+    _label_en = 'Bug Tracker'
+    _label_pr = 'پیگیری ایرادهای محصول'

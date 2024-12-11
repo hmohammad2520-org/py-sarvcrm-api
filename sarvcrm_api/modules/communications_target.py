@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class CommunicationsTarget(SarvModule):
-    module_name = 'Communications_Target'
-    label_en = 'Communications Target'
-    label_pr = 'هدف ارتباطات'
+    _module_name = 'Communications_Target'
+    _label_en = 'Communications Target'
+    _label_pr = 'هدف ارتباطات'

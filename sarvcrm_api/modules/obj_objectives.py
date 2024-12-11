@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class ObjObjectives(SarvModule):
-    module_name = 'OBJ_Objectives'
-    label_en = 'Objectives'
-    label_pr = 'اهداف'
+    _module_name = 'OBJ_Objectives'
+    _label_en = 'Objectives'
+    _label_pr = 'اهداف'

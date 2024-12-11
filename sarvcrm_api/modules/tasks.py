@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Tasks(SarvModule):
-    module_name = 'Tasks'
-    label_en = 'Tasks'
-    label_pr = 'وظایف'
+    _module_name = 'Tasks'
+    _label_en = 'Tasks'
+    _label_pr = 'وظایف'

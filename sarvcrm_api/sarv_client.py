@@ -2,7 +2,7 @@ import json, requests, hashlib
 from typing import Callable, Literal, TypeAlias, Optional
 
 from sarvcrm_api.exceptions import SarvException
-from ._base import ApiRouteMixin
+from ._base import ModulesMixin
 
 RequestMethod: TypeAlias = Literal['GET','POST','PUT','DELETE']
 LanguageType: TypeAlias = Literal['fa_IR','en_US']
@@ -14,7 +14,7 @@ requests_method_map: dict[LanguageType, Callable] = {
     'DELETE': requests.delete,
 }
 
-class SarvClient(ApiRouteMixin):
+class SarvClient(ModulesMixin):
     def __init__(
             self, 
             base_url: str,
@@ -36,8 +36,7 @@ class SarvClient(ApiRouteMixin):
         if is_password_md5 == True:
             self.password = password
         else:
-            md5_hash = hashlib.md5(password.encode())
-            self.password = md5_hash.hexdigest()
+            self.password  = hashlib.md5(password.encode()).hexdigest()
 
         self.token: str = ''
 

@@ -1,6 +1,6 @@
 from .modules import *
 
-class ApiRouteMixin:
+class ModulesMixin:
     def __init__(self) -> None:
         self.Accounts = Accounts(self)
         self.AosContracts = AosContracts(self)

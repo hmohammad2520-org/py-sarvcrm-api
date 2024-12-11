@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class ObjIndicators(SarvModule):
-    module_name = 'OBJ_Indicators'
-    label_en = 'Indicators'
-    label_pr = 'شاخص'
+    _module_name = 'OBJ_Indicators'
+    _label_en = 'Indicators'
+    _label_pr = 'شاخص'

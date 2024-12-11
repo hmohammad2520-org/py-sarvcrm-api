@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Calls(SarvModule):
-    module_name = 'Calls'
-    label_en = 'Calls'
-    label_pr = 'تماس ها'
+    _module_name = 'Calls'
+    _label_en = 'Calls'
+    _label_pr = 'تماس ها'

@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Meetings(SarvModule):
-    module_name = 'Meetings'
-    label_en = 'Meetings'
-    label_pr = 'جلسات'
+    _module_name = 'Meetings'
+    _label_en = 'Meetings'
+    _label_pr = 'جلسات'

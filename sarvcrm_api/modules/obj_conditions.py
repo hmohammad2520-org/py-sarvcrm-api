@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class ObjConditions(SarvModule):
-    module_name = 'OBJ_Conditions'
-    label_en = 'Conditions'
-    label_pr = 'شرایط شاخص'
+    _module_name = 'OBJ_Conditions'
+    _label_en = 'Conditions'
+    _label_pr = 'شرایط شاخص'

@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Notes(SarvModule):
-    module_name = 'Notes'
-    label_en = 'Notes'
-    label_pr = 'یادداشت ها'
+    _module_name = 'Notes'
+    _label_en = 'Notes'
+    _label_pr = 'یادداشت ها'

@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class AosContracts(SarvModule):
-    module_name = 'AOS_Contracts'
-    label_en = 'Sales Contract'
-    label_pr = 'قراردادهای فروش'
+    _module_name = 'AOS_Contracts'
+    _label_en = 'Sales Contract'
+    _label_pr = 'قراردادهای فروش'

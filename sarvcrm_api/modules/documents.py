@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Documents(SarvModule):
-    module_name = 'Documents'
-    label_en = 'Documents'
-    label_pr = 'اسناد'
+    _module_name = 'Documents'
+    _label_en = 'Documents'
+    _label_pr = 'اسناد'

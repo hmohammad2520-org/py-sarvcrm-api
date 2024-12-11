@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Communications(SarvModule):
-    module_name = 'Communications'
-    label_en = 'Communications'
-    label_pr = 'ارتباطات'
+    _module_name = 'Communications'
+    _label_en = 'Communications'
+    _label_pr = 'ارتباطات'

@@ -1,11 +1,10 @@
-
 class SarvModule:
-    api_path = ''
-    label_en = 'BASE_CLASS'
-    label_pr = 'کلاس اصلی'
+    _api_path = ''
+    _label_en = 'BASE_CLASS'
+    _label_pr = 'کلاس اصلی'
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, _client):
+        self._client = _client
 
     def create(*Args, **KWArgs) -> str:
         ...
@@ -26,4 +25,4 @@ class SarvModule:
         return f'{self.__class__.__name__}(client: SarvClient)'
 
     def __str__(self) -> str:
-        return f'<SarvModule {self.label_en}>'
+        return f'<SarvModule {self._label_en}>'

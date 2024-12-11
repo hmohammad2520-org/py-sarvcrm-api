@@ -1,6 +1,6 @@
 from ._base import SarvModule
 
 class Leads(SarvModule):
-    module_name = 'Leads'
-    label_en = 'Leads'
-    label_pr = 'سرنخ'
+    _module_name = 'Leads'
+    _label_en = 'Leads'
+    _label_pr = 'سرنخ'
