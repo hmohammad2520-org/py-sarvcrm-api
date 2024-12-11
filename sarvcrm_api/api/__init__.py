@@ -1,10 +1,10 @@
 from .accounts import Accounts
-from .aos_contracts import AOSContracts
-from .aos_invoices import AOSInvoices
-from .aos_pdf_templates import AOSPDFTemplates
-from .aos_product_categories import AOSProductCategories      
-from .aos_products import AOSProducts
-from .aos_quotes import AOSQuotes
+from .aos_contracts import AosContracts
+from .aos_invoices import AosInvoices
+from .aos_pdf_templates import AosPdfTemplates
+from .aos_product_categories import AosProductCategories      
+from .aos_products import AosProducts
+from .aos_quotes import AosQuotes
 from .appointments import Appointments
 from .approval import Approval
 from .asol_project import AsolProject
@@ -25,9 +25,9 @@ from .knowledge_base_categories import KnowledgeBaseCategories
 from .leads import Leads
 from .meetings import Meetings
 from .notes import Notes
-from .obj_conditions import OBJConditions
-from .obj_indicators import OBJIndicators
-from .obj_objectives import OBJObjectives
+from .obj_conditions import ObjConditions
+from .obj_indicators import ObjIndicators
+from .obj_objectives import ObjObjectives
 from .opportunities import Opportunities
 from .payments import Payments
 from .purchase_order import PurchaseOrder
@@ -41,12 +41,12 @@ from .vendors import Vendors
 
 __all__ = [
     'Accounts',
-    'AOSContracts',
-    'AOSInvoices',
-    'AOSPDFTemplates',
-    'AOSProductCategories',
-    'AOSProducts',
-    'AOSQuotes',
+    'AosContracts',
+    'AosInvoices',
+    'AosPdfTemplates',
+    'AosProductCategories',
+    'AosProducts',
+    'AosQuotes',
     'Appointments',
     'Approval',
     'AsolProject',
@@ -67,9 +67,9 @@ __all__ = [
     'Leads',
     'Meetings',
     'Notes',
-    'OBJConditions',
-    'OBJIndicators',
-    'OBJObjectives',
+    'ObjConditions',
+    'ObjIndicators',
+    'ObjObjectives',
     'Opportunities',
     'Payments',
     'PurchaseOrder',
