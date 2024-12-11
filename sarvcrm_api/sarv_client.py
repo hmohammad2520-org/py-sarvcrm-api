@@ -1,13 +1,11 @@
 import json, requests, hashlib
-from typing import Callable, Literal, TypeAlias, Optional
+from typing import Callable, Optional
 
-from sarvcrm_api.exceptions import SarvException
+from .exceptions import SarvException
 from ._base import ModulesMixin
+from .type_hints import SarvLanguageType, RequestMethod
 
-RequestMethod: TypeAlias = Literal['GET','POST','PUT','DELETE']
-LanguageType: TypeAlias = Literal['fa_IR','en_US']
-
-requests_method_map: dict[LanguageType, Callable] = {
+requests_method_map: dict[SarvLanguageType, Callable] = {
     'GET': requests.get,
     'POST': requests.post,
     'PUT': requests.put,
@@ -22,7 +20,7 @@ class SarvClient(ModulesMixin):
             username: str,
             password: str,
             login_type: Optional[str] = None, 
-            language: LanguageType = 'en_US',
+            language: SarvLanguageType = 'en_US',
             is_password_md5: bool = False,
             ) -> None:
         """Initialize the SarvClient."""
@@ -49,7 +47,7 @@ class SarvClient(ModulesMixin):
             get_parms: dict = None,
             post_parms: dict = None,
             ) -> dict:
-        """Send a request to the Sarv API."""
+        """Send a request to the Sarv API and returns the data parameter of the response"""
 
         head_parms = head_parms or {}
         get_parms = get_parms or {}
