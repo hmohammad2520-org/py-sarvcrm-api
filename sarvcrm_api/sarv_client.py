@@ -46,27 +46,26 @@ class SarvClient(ModulesMixin):
     def create_get_parms(
             self, 
             sarv_get_method: SarvGetMethods = None,
-            sarv_module: SarvModule | str = None,
+            sarv_module: Optional[SarvModule | str] = None,
             **addition
             ) -> dict:
+        """Create the get parameter with the method and module"""
 
         module_name = None
 
         if sarv_module is not None:
-            if isinstance(sarv_module,SarvModule):
+            if isinstance(sarv_module, SarvModule):
                 module_name = sarv_module._module_name
-            elif isinstance(sarv_module,str):
+            elif isinstance(sarv_module, str):
                 module_name = sarv_module
             else:
                 raise TypeError(f'Module type must be instance of SarvModule or str not {sarv_module.__class__.__name__}')
         
-        get_parms = {}
-        
-        if sarv_get_method is not None:
-            get_parms['method'] = sarv_get_method
-
-        if module_name is not None:
-            get_parms['module'] = module_name
+        get_parms = {
+            'method': sarv_get_method,
+            'module': module_name,
+        }
+        get_parms = {k: v for k, v in get_parms.items() if v is not None}
 
         if addition:
             get_parms.update(**addition)
@@ -83,24 +82,25 @@ class SarvClient(ModulesMixin):
             ) -> dict:
         """Send a request to the Sarv API and returns the data parameter of the response"""
 
-        requests_method = requests_method_map.get(request_method, None)
+        requests_function = requests_method_map.get(request_method, None)
 
         head_parms = head_parms or {}
         get_parms = get_parms or {}
         post_parms = post_parms or {}
 
+        # Default Header
         head_parms['Content-Type'] = 'application/json'
 
         if self.token:
             head_parms['Authorization'] = f'Bearer {self.token}'
 
-        if not requests_method:
+        if not requests_function:
             raise TypeError(f'This request method is not valid http method: {request_method}')
 
-        response:requests.Response = requests_method(
+        response:requests.Response = requests_function(
             url = self.base_url,
             params = get_parms,
-            headers = head_parms, 
+            headers = head_parms,
             json = post_parms,
             verify = True,
             )
@@ -141,12 +141,14 @@ class SarvClient(ModulesMixin):
             'login_type': self.login_type,
             'language': self.language,
             }
+        post_parms = {k: v for k, v in post_parms.items() if v is not None}
 
         data = self.send_request(
-            request_method='POST', 
+            request_method='POST',
             get_parms=self.create_get_parms('Login'), 
             post_parms=post_parms,
             )
+
         if data:
             self.token = data.get('token')
 

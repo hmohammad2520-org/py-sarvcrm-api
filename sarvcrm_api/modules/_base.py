@@ -6,14 +6,24 @@ class SarvModule:
     _label_pr = 'کلاس اصلی'
 
     def __init__(self, _client):
+        """Initiate the Module class and set the clinet as a local varible"""
         from sarvcrm_api import SarvClient
         self._client: SarvClient = _client
 
-    def create_get_parms(self, method:SarvGetMethods, **addition) -> dict:
-        return self._client.create_get_parms(method, self, **addition)
+
+    def create_get_parms(
+            self,
+            sarv_get_method:SarvGetMethods,
+            **addition
+            ) -> dict:
+        """Create the get parameter with the method and module"""
+
+        return self._client.create_get_parms(sarv_get_method, self, **addition)
 
 
     def create(self, **KWArgs) -> str:
+        """Creates the item in the module"""
+
         return self._client.send_request(
             request_method='POST',
             get_parms=self.create_get_parms('Save'),
@@ -29,6 +39,7 @@ class SarvModule:
             limit:int = None,
             offset: int = None,
             ) -> list:
+        """Returns a list of items"""
 
         post_parms = {
             'query': query,
@@ -47,28 +58,36 @@ class SarvModule:
 
 
     def read_record(self, pk:str) -> dict:
+        """Returns item from id of the item"""
+
         return self._client.send_request(
             request_method='GET',
             get_parms=self.create_get_parms('Retrieve', id=pk),
         ).get('data')[0]
 
 
-    def update(self, pk:str, **KWArgs) -> str:
+    def update(self, pk:str, **fields_data) -> str:
+        """Updates the fields from id of the item"""
+
         return self._client.send_request(
             request_method = 'PUT',
             get_parms = self.create_get_parms('Save', id=pk),
-            post_parms = KWArgs,
+            post_parms = fields_data,
         ).get('id')
 
 
     def delete(self, pk:str) -> str | None:
+        """Deletes the item with id"""
+
         return self._client.send_request(
             request_method = 'DELETE',
             get_parms = self.create_get_parms('Save', id=pk),
-        ).get('id', None)
+        ).get('id')
 
 
     def get_module_fields(self) -> dict[str, dict]:
+        """Gets all of the fields of a module"""
+
         return self._client.send_request(
             request_method='GET',
             get_parms=self.create_get_parms('GetModuleFields'),
@@ -83,6 +102,7 @@ class SarvModule:
             limit:int = None,
             offset: int = None,
             ) -> list:
+        """returns list of items in relationship of the related field"""
 
         post_parms = {
             'query': query,
@@ -104,9 +124,10 @@ class SarvModule:
             self,
             pk:str,
             field_name:str,
-            **related_records,
+            related_records:list,
             ) -> list:
-        
+        """Saves the relationship"""
+
         return self._client.send_request(
             request_method='POST',
             get_parms=self.create_get_parms('SaveRelationships', id=pk),
