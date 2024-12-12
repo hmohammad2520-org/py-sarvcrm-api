@@ -5,7 +5,7 @@ setup(
     version='1.0.0',
     description='simple sarvcrm api module',
     author='Radin System',
-    author_email='Technical@rsto.ir',
+    author_email='info@rsto.ir',
     url='https://github.com/Radin-System/py-sarvcrm-api',
     install_requires=[
         'requests',
