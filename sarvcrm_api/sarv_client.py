@@ -3,7 +3,9 @@ from typing import Callable, Optional
 
 from .exceptions import SarvException
 from ._base import ModulesMixin
-from .type_hints import SarvLanguageType, RequestMethod
+from .type_hints import SarvLanguageType, RequestMethod, SarvGetMethods
+
+from .modules._base import SarvModule
 
 requests_method_map: dict[SarvLanguageType, Callable] = {
     'GET': requests.get,
@@ -40,16 +42,48 @@ class SarvClient(ModulesMixin):
 
         super().__init__()
 
+
+    def create_get_parms(
+            self, 
+            sarv_get_method: SarvGetMethods = None,
+            sarv_module: SarvModule | str = None,
+            **addition
+            ) -> dict:
+
+        module_name = None
+
+        if sarv_module is not None:
+            if isinstance(sarv_module,SarvModule):
+                module_name = sarv_module._module_name
+            elif isinstance(sarv_module,str):
+                module_name = sarv_module
+            else:
+                raise TypeError(f'Module type must be instance of SarvModule or str not {sarv_module.__class__.__name__}')
+        
+        get_parms = {}
+        
+        if sarv_get_method is not None:
+            get_parms['method'] = sarv_get_method
+
+        if module_name is not None:
+            get_parms['module'] = module_name
+
+        if addition:
+            get_parms.update(**addition)
+
+        return get_parms
+
+
     def send_request(
             self, 
-            method: RequestMethod, 
+            request_method: RequestMethod, 
             head_parms: dict = None,
             get_parms: dict = None,
             post_parms: dict = None,
             ) -> dict:
         """Send a request to the Sarv API and returns the data parameter of the response"""
 
-        requests_method = requests_method_map.get(method, None)
+        requests_method = requests_method_map.get(request_method, None)
 
         head_parms = head_parms or {}
         get_parms = get_parms or {}
@@ -61,7 +95,7 @@ class SarvClient(ModulesMixin):
             head_parms['Authorization'] = f'Bearer {self.token}'
 
         if not requests_method:
-            raise TypeError(f'This request method is not valid http method: {method}')
+            raise TypeError(f'This request method is not valid http method: {request_method}')
 
         response:requests.Response = requests_method(
             url = self.base_url,
@@ -96,10 +130,10 @@ class SarvClient(ModulesMixin):
                 f"{response.status_code} - {response_dict.get('message', 'Unknown error')}"
             )
 
+
     def login(self) -> str:
         """Authenticate the user and retrieve a token."""
 
-        get_parms = {'method': 'Login'}
         post_parms = {
             'utype': self.utype,
             'user_name': self.username,
@@ -108,8 +142,39 @@ class SarvClient(ModulesMixin):
             'language': self.language,
             }
 
-        data = self.send_request(method='POST', get_parms=get_parms, post_parms=post_parms)
+        data = self.send_request(
+            request_method='POST', 
+            get_parms=self.create_get_parms('Login'), 
+            post_parms=post_parms,
+            )
         if data:
             self.token = data.get('token')
 
         return self.token
+    
+
+    def logout(self) -> None:
+        """Clears token from the instance"""
+        if self.token:
+            self.token = ''
+
+
+    def search_by_number(
+            self,
+            number:str,
+            module: Optional[SarvModule | str] = None
+            ) -> None:
+        """Searches the crm by phone number and retrives the module item"""
+
+        return self.send_request(
+            request_method='GET',
+            get_parms=self.create_get_parms('SearchByNumber', sarv_module=module, number=number),
+            )
+
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(utype={self.utype}, username={self.username})'
+
+
+    def __str__(self) -> str:
+        return f'<SarvClient {self.utype}>'
