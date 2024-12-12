@@ -77,7 +77,7 @@ class SarvClient(ModulesMixin):
     def iso_time_output(output_method: TimeOutput, dt: datetime | timedelta) -> str:
         """
         Takes a datetime or timedelta object and returns a string based on output method.
-        these results are acceptable by sarvcrm api and should use this
+        these results are acceptable by sarvcrm api and should use this as time formats.
         Args:
             output_method: Determines the output format. Can be 'date', 'datetime', or 'time'.
             dt: A datetime or timedelta object.
@@ -93,7 +93,7 @@ class SarvClient(ModulesMixin):
 
         if output_method == 'date':
             return dt.date().isoformat()
-        
+
         elif output_method == 'datetime':
             return dt.astimezone().isoformat(timespec="seconds")
 
