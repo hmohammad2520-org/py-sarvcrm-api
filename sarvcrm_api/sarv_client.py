@@ -62,7 +62,7 @@ class SarvClient(ModulesMixin):
 
     def create_get_parms(
             self, 
-            sarv_get_method: SarvGetMethods = None,
+            sarv_get_method: Optional[SarvGetMethods] = None,
             sarv_module: Optional[SarvModule | str] = None,
             **addition
             ) -> dict:
@@ -134,9 +134,9 @@ class SarvClient(ModulesMixin):
     def send_request(
             self, 
             request_method: RequestMethod, 
-            head_parms: dict = None,
-            get_parms: dict = None,
-            post_parms: dict = None,
+            head_parms: Optional[dict] = None,
+            get_parms: Optional[dict] = None,
+            post_parms: Optional[dict] = None,
             ) -> dict:
         """
         Send a request to the Sarv API and return the response data.

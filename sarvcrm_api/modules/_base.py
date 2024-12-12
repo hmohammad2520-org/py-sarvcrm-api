@@ -1,3 +1,4 @@
+from typing import Optional
 from sarvcrm_api.type_hints import SarvGetMethods
 
 class SarvModule:
@@ -57,11 +58,11 @@ class SarvModule:
 
     def read_list(
             self,
-            query: str = None,
-            order_by: str = None,
-            select_fields: list[str] = None,
-            limit: int = None,
-            offset: int = None,
+            query: Optional[str] = None,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            limit: Optional[int] = None,
+            offset: Optional[int] = None,
     ) -> list:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
@@ -153,11 +154,11 @@ class SarvModule:
     def get_relationships(
             self,
             related_field: str,
-            query: str = None,
-            order_by: str = None,
-            select_fields: list[str] = None,
-            limit: int = None,
-            offset: int = None,
+            query: Optional[str] = None,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            limit: Optional[int] = None,
+            offset: Optional[int] = None,
     ) -> list:
         """
         Retrieves a list of related items for a specific field in the module.
