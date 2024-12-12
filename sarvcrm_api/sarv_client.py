@@ -1,9 +1,10 @@
 import json, requests, hashlib
 from typing import Callable, Optional
+from datetime import datetime, timedelta, timezone
 
 from .exceptions import SarvException
 from ._base import ModulesMixin
-from .type_hints import SarvLanguageType, RequestMethod, SarvGetMethods
+from .type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
 
 from .modules._base import SarvModule
 
@@ -71,6 +72,36 @@ class SarvClient(ModulesMixin):
             get_parms.update(**addition)
 
         return get_parms
+
+
+    def iso_time_output(output_method: TimeOutput, dt: datetime | timedelta) -> str:
+        """
+        Takes a datetime or timedelta object and returns a string based on output method.
+        these results are acceptable by sarvcrm api and should use this
+        Args:
+            output_method: Determines the output format. Can be 'date', 'datetime', or 'time'.
+            dt: A datetime or timedelta object.
+
+        Returns:
+            A string representing the date, datetime, or time.
+            - date: "YYYY-MM-DD"
+            - datetime: "YYYY-MM-DDTHH:MM:SS+HH:MM"
+            - time: "HH:MM:SS"
+        """
+        if isinstance(dt, timedelta):
+            dt = datetime.now(timezone.utc) + dt
+
+        if output_method == 'date':
+            return dt.date().isoformat()
+        
+        elif output_method == 'datetime':
+            return dt.astimezone().isoformat(timespec="seconds")
+
+        elif output_method == 'time':
+            return dt.time().isoformat(timespec="seconds")
+
+        else:
+            raise TypeError(f'Invalid output method: {output_method}')
 
 
     def send_request(
