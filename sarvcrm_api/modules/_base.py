@@ -12,7 +12,7 @@ class SarvModule:
         _label_pr (str): The label of the module in Persian.
         _client (SarvClient): The client instance used to send requests to the Sarv CRM API.
     """
-    
+
     _module_name = ''
     _label_en = 'BASE_CLASS'
     _label_pr = 'کلاس اصلی'
