@@ -40,7 +40,7 @@ class SarvModule:
         """
         return self._client.create_get_parms(sarv_get_method, self, **addition)
 
-    def create(self, **KWArgs) -> str:
+    def create(self, **fields_data) -> str:
         """
         Creates a new item in the module with the provided field values.
 
@@ -53,7 +53,7 @@ class SarvModule:
         return self._client.send_request(
             request_method='POST',
             get_parms=self.create_get_parms('Save'),
-            post_parms=KWArgs,
+            post_parms=fields_data,
         ).get('id', {})
 
     def read_list(
