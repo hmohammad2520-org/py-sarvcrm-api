@@ -1,5 +1,6 @@
-import json, requests, hashlib
-from typing import Callable, Optional, Self
+import json, hashlib
+from requests import Response, request
+from typing import Optional, Self
 from datetime import datetime, timedelta, timezone
 
 from .exceptions import SarvException
@@ -8,12 +9,6 @@ from .type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMeth
 
 from .modules._base import SarvModule
 
-requests_method_map: dict[SarvLanguageType, Callable] = {
-    'GET': requests.get,
-    'POST': requests.post,
-    'PUT': requests.put,
-    'DELETE': requests.delete,
-}
 
 class SarvClient(ModulesMixin):
     """
@@ -153,7 +148,6 @@ class SarvClient(ModulesMixin):
         Raises:
             SarvException: If the server returns an error response.
         """
-        requests_function = requests_method_map.get(request_method, None)
 
         head_parms = head_parms or {}
         get_parms = get_parms or {}
@@ -165,10 +159,8 @@ class SarvClient(ModulesMixin):
         if self.token:
             head_parms['Authorization'] = f'Bearer {self.token}'
 
-        if not requests_function:
-            raise TypeError(f'This request method is not valid http method: {request_method}')
-
-        response:requests.Response = requests_function(
+        response:Response = request(
+            method=request_method,
             url = self.base_url,
             params = get_parms,
             headers = head_parms,
