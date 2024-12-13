@@ -1,5 +1,5 @@
 import json, requests, hashlib
-from typing import Callable, Optional
+from typing import Callable, Optional, Self
 from datetime import datetime, timedelta, timezone
 
 from .exceptions import SarvException
@@ -259,6 +259,16 @@ class SarvClient(ModulesMixin):
             request_method='GET',
             get_parms=self.create_get_parms('SearchByNumber', sarv_module=module, number=number),
             )
+
+
+    def __enter__(self) -> Self:
+        """Basic Context Manager for clean code execution"""
+        self.login()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Basic Context Manager for clean code execution"""
+        self.logout()
 
 
     def __repr__(self):
