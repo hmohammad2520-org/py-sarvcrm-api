@@ -48,7 +48,7 @@ class SarvClient(ModulesMixin):
         if is_password_md5 == True:
             self.password = password
         else:
-            self.password  = hashlib.md5(password.encode('utf-8')).hexdigest()
+            self.password = hashlib.md5(password.encode('utf-8')).hexdigest()
 
         self.token: str = ''
 
@@ -220,7 +220,7 @@ class SarvClient(ModulesMixin):
             self.token = data.get('token')
 
         return self.token
-    
+
 
     def logout(self) -> None:
         """
@@ -234,7 +234,7 @@ class SarvClient(ModulesMixin):
 
     def search_by_number(
             self,
-            number:str,
+            number: str,
             module: Optional[SarvModule | str] = None
             ) -> None:
         """

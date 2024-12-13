@@ -2,6 +2,7 @@ from .modules import *
 
 class ModulesMixin:
     def __init__(self) -> None:
+        """This is abstract module for adding sarv modules to sarvclient class"""
         self.Accounts = Accounts(self)
         self.AosContracts = AosContracts(self)
         self.AosInvoices = AosInvoices(self)
