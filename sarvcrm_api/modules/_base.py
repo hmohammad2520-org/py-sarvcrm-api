@@ -90,7 +90,7 @@ class SarvModule:
             request_method='POST',
             get_parms=self.create_get_parms('Retrieve'),
             post_parms=post_parms,
-        ).get('data')
+        )
 
     def read_record(self, pk: str) -> dict:
         """
@@ -105,7 +105,7 @@ class SarvModule:
         return self._client.send_request(
             request_method='GET',
             get_parms=self.create_get_parms('Retrieve', id=pk),
-        ).get('data')[0]
+        )[0]
 
     def update(self, pk: str, **fields_data) -> str:
         """
