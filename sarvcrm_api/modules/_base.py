@@ -45,7 +45,7 @@ class SarvModule:
         Creates a new item in the module with the provided field values.
 
         Args:
-            **KWArgs: The fields and values to be used in the creation of the item.
+            **fields_data: The fields and values to be used in the creation of the item.
 
         Returns:
             str: The ID of the newly created item.
