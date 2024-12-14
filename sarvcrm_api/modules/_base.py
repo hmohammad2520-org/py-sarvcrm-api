@@ -13,9 +13,9 @@ class SarvModule:
         _client (SarvClient): The client instance used to send requests to the Sarv CRM API.
     """
 
-    _module_name = ''
-    _label_en = 'BASE_CLASS'
-    _label_pr = 'کلاس اصلی'
+    _module_name: str = ''
+    _label_en: str = 'BASE_CLASS'
+    _label_pr: str = 'کلاس اصلی'
 
     def __init__(self, _client):
         """
