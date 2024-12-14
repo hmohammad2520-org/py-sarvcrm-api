@@ -63,7 +63,7 @@ class SarvModule:
             select_fields: Optional[list[str]] = None,
             limit: Optional[int] = None,
             offset: Optional[int] = None,
-    ) -> list:
+    ) -> list[dict]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
 
