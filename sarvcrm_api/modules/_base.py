@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 from sarvcrm_api.type_hints import SarvGetMethods
 
 class SarvModule:
@@ -92,7 +92,7 @@ class SarvModule:
             post_parms=post_parms,
         )
 
-    def read_record(self, pk: str) -> dict:
+    def read_record(self, pk: str) -> dict[str, Any]:
         """
         Retrieves a single item from the module using its unique identifier (ID).
 
