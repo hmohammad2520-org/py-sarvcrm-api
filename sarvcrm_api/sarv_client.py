@@ -236,7 +236,7 @@ class SarvClient(ModulesMixin):
             self,
             number: str,
             module: Optional[SarvModule | str] = None
-            ) -> None:
+            ) -> list[dict]:
         """
         Search the CRM by phone number and retrieve the module item.
 
