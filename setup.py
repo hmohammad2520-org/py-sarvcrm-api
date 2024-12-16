@@ -5,6 +5,7 @@ from sarvcrm_api import version
 setup(
     name='py-sarvcrm-api',
     version=version,
+    license="MIT",
     description='simple sarvcrm api module',
     author='Radin-System',
     author_email='technical@rsto.ir',
