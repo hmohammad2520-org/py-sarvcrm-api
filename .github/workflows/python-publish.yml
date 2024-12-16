@@ -1,4 +1,4 @@
-name: Upload Python Package
+name: Publish to PyPI
 
 on:
   release:
@@ -9,40 +9,30 @@ permissions:
   id-token: write
 
 jobs:
-  release-build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
+      # Install build tools
       - name: Install build tools
-        run: python -m pip install --upgrade build setuptools wheel
+        run: |
+          python -m pip install --upgrade pip setuptools wheel build twine
 
-      - name: Build release distributions
+      # Build the distribution files
+      - name: Build the package
         run: python -m build
 
-      - name: Upload distributions
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-  pypi-publish:
-    runs-on: ubuntu-latest
-    needs: release-build
-    environment:
-      name: pypi
-    steps:
-      - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-      - name: Publish release distributions to PyPI
+      # Publish to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
