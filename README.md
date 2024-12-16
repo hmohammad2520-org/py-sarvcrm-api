@@ -21,7 +21,7 @@ The **SarvClient** module provides a Python interface for interacting with the S
 2. Make Sure pip and git are installed
 3. Install the package
    ```bash
-   pip install git+https://github.com/Radin-System/py-sarvcrm-api
+   pip install py-sarvcrm-api
    ```
 
 ---
