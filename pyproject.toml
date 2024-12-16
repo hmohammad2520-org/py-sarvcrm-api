@@ -9,7 +9,7 @@ description = "Simple sarvcrm api module"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Radin System", email = "Technical@rsto.ir" }
+    { name = "Radin-System", email = "technical@rsto.ir" }
 ]
 keywords = ["python", "library", "sarvcrm", "hamkaransystem", "api"]
 classifiers = [
