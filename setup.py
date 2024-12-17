@@ -3,6 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='py-sarvcrm-api',
     version='0.1.1',
+    license="MIT",
     description='simple sarvcrm api module',
     author='Radin-System',
     author_email='technical@rsto.ir',
