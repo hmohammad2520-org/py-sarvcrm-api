@@ -57,12 +57,12 @@ class SarvModule:
         ).get('id', {})
 
     def read_list(
-            self,
-            query: Optional[str] = None,
-            order_by: Optional[str] = None,
-            select_fields: Optional[list[str]] = None,
-            limit: Optional[int] = None,
-            offset: Optional[int] = None,
+        self,
+        query: Optional[str] = None,
+        order_by: Optional[str] = None,
+        select_fields: Optional[list[str]] = None,
+        limit: Optional[int] = 200,
+        offset: Optional[int] = 0,
     ) -> list[dict]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
@@ -71,8 +71,8 @@ class SarvModule:
             query (str, optional): A query to filter the results.
             order_by (str, optional): A field to order the results by.
             select_fields (list[str], optional): A list of fields to include in the response.
-            limit (int, optional): The maximum number of items to retrieve.
-            offset (int, optional): The number of items to skip before starting to return results.
+            limit (int, 200): The maximum number of items to retrieve.
+            offset (int, 0): The number of items to skip before starting to return results.
 
         Returns:
             list: A list of items from the module.
@@ -152,13 +152,13 @@ class SarvModule:
         )
 
     def get_relationships(
-            self,
-            related_field: str,
-            query: Optional[str] = None,
-            order_by: Optional[str] = None,
-            select_fields: Optional[list[str]] = None,
-            limit: Optional[int] = None,
-            offset: Optional[int] = None,
+        self,
+        related_field: str,
+        query: Optional[str] = None,
+        order_by: Optional[str] = None,
+        select_fields: Optional[list[str]] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
     ) -> list:
         """
         Retrieves a list of related items for a specific field in the module.
@@ -190,10 +190,10 @@ class SarvModule:
         )
 
     def save_relationships(
-            self,
-            pk: str,
-            field_name: str,
-            related_records: list,
+        self,
+        pk: str,
+        field_name: str,
+        related_records: list,
     ) -> list:
         """
         Saves a relationship between the current item and related records.
