@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-sarvcrm-api"  # Replace with your package's name
-version = "0.1.1"    # Initial version
+version = "0.1.2"    # Initial version
 description = "Simple sarvcrm api module"
 readme = "README.md"
 license = { file = "LICENSE" }
