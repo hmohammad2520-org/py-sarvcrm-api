@@ -92,6 +92,42 @@ class SarvModule:
             post_parms=post_parms,
         )
 
+    def read_list_all(
+        self,
+        query: Optional[str] = None,
+        order_by: Optional[str] = None,
+        select_fields: Optional[list[str]] = None,
+        item_buffer: int = 200
+    ) -> list[dict]:
+        """
+        Retrieves all of items from the module, optionally filtered by the specified parameters.
+
+        Args:
+            query (str, optional): A query to filter the results.
+            order_by (str, optional): A field to order the results by.
+            select_fields (list[str], optional): A list of fields to include in the response.
+            item_buffer (int, 200): Number of items to query each iteration from sarv server.
+
+        Returns:
+            list: A list of all items from the module.
+        """
+
+        offset = 0
+        all_list = []
+        new = ['']
+        while new:
+            new = self.read_list(
+                query=query, 
+                order_by=order_by, 
+                select_fields=select_fields,
+                limit=item_buffer,
+                offset=offset,
+                )
+            all_list += new
+            offset += item_buffer
+        
+        return all_list
+
     def read_record(self, pk: str) -> dict[str, Any]:
         """
         Retrieves a single item from the module using its unique identifier (ID).
