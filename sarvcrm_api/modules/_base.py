@@ -1,5 +1,8 @@
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 from sarvcrm_api.type_hints import SarvGetMethods
+
+BASE_LIMIT = 300
+BASE_OFFSET = 0
 
 class SarvModule:
     """
@@ -61,8 +64,8 @@ class SarvModule:
         query: Optional[str] = None,
         order_by: Optional[str] = None,
         select_fields: Optional[list[str]] = None,
-        limit: Optional[int] = 200,
-        offset: Optional[int] = 0,
+        limit: int = BASE_LIMIT,
+        offset: int = BASE_OFFSET,
     ) -> list[dict]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
@@ -71,8 +74,8 @@ class SarvModule:
             query (str, optional): A query to filter the results.
             order_by (str, optional): A field to order the results by.
             select_fields (list[str], optional): A list of fields to include in the response.
-            limit (int, 200): The maximum number of items to retrieve.
-            offset (int, 0): The number of items to skip before starting to return results.
+            limit (int): The maximum number of items to retrieve.
+            offset (int): The number of items to skip before starting to return results.
 
         Returns:
             list: A list of items from the module.
@@ -84,6 +87,7 @@ class SarvModule:
             'limit': limit,
             'offset': offset
         }
+
         post_parms = {k: v for k, v in post_parms.items() if v is not None}
 
         return self._client.send_request(
@@ -97,7 +101,7 @@ class SarvModule:
         query: Optional[str] = None,
         order_by: Optional[str] = None,
         select_fields: Optional[list[str]] = None,
-        item_buffer: int = 200
+        item_buffer: int = BASE_LIMIT,
     ) -> list[dict]:
         """
         Retrieves all of items from the module, optionally filtered by the specified parameters.
@@ -106,7 +110,7 @@ class SarvModule:
             query (str, optional): A query to filter the results.
             order_by (str, optional): A field to order the results by.
             select_fields (list[str], optional): A list of fields to include in the response.
-            item_buffer (int, 200): Number of items to query each iteration from sarv server.
+            item_buffer (int): Number of items to query each iteration from sarv server.
 
         Returns:
             list: A list of all items from the module.
@@ -193,8 +197,8 @@ class SarvModule:
         query: Optional[str] = None,
         order_by: Optional[str] = None,
         select_fields: Optional[list[str]] = None,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
+        limit: int = BASE_OFFSET,
+        offset: int = BASE_LIMIT,
     ) -> list:
         """
         Retrieves a list of related items for a specific field in the module.
@@ -204,8 +208,8 @@ class SarvModule:
             query (str, optional): A query to filter the results.
             order_by (str, optional): A field to order the results by.
             select_fields (list[str], optional): A list of fields to include in the response.
-            limit (int, optional): The maximum number of items to retrieve.
-            offset (int, optional): The number of items to skip before starting to return results.
+            limit (int): The maximum number of items to retrieve.
+            offset (int): The number of items to skip before starting to return results.
 
         Returns:
             list: A list of related items.

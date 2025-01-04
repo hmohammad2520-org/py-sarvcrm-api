@@ -147,8 +147,11 @@ SarvModule(_client: SarvClient)
 - `create(**KWArgs) -> str`
     Creates a new record in the module.
 
-- `read_list(query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, limit: Optional[int] = None, offset: Optional[int] = None) -> list`
+- `read_list(query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, limit: int = None, offset: int = None) -> list`
     Retrieves a list of items from the module.
+
+- `real_list_all(query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, item_buffer: int = 300) -> list`
+    Retrieves all items as a list from the module.
 
 - `read_record(pk: str) -> dict`
     Fetches a single record by ID.
@@ -162,7 +165,7 @@ SarvModule(_client: SarvClient)
 - `get_module_fields() -> dict[str, dict]`
     Retrieves the fields of the module.
 
-- `get_relationships(related_field: str, query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, limit: Optional[int] = None, offset: Optional[int] = None) -> list`
+- `get_relationships(related_field: str, query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, limit: int = None, offset: int = None) -> list`
     Fetches related items.
 
 - `save_relationships(pk: str, field_name: str, related_records: list) -> list`
