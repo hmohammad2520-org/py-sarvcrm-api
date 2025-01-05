@@ -1,4 +1,4 @@
-from typing import Any, Literal, Optional
+from typing import Any, Optional
 from sarvcrm_api.type_hints import SarvGetMethods
 
 BASE_LIMIT = 300
