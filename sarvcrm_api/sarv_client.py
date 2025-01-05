@@ -170,9 +170,23 @@ class SarvClient(ModulesMixin):
 
         # Check for Server respond
         if 200 <= response.status_code < 500:
-            # Deserialize sarvcrm servers response
-            response_json = response.text
-            response_dict: dict = json.loads(response_json)
+            try:
+                # Deserialize sarvcrm servers response
+                response_dict: dict = json.loads(response.text)
+
+            # Checking for invalid response
+            except json.decoder.JSONDecodeError:
+                if 'MySQL Error' in response.text:
+                    response_dict: dict = {
+                        'message': 'There are Errors in the database\nif you are sending raw SQL Query to server please check syntax and varibles'}
+
+                else:
+                    response_dict: dict = {'message': 'Unkhown error'}
+
+            except Exception as e:
+                raise SarvException(
+                    f'There is problem while converting response to json: {e}'
+                    )
 
         else:
             # Raise on server side http error
