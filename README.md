@@ -17,7 +17,7 @@ The **SarvClient** module provides a Python interface for interacting with the S
 
 ## Installation
 
-1. Ensure you have Python 3.11+ installed.
+1. Ensure you have Python 3.9+ installed.
 2. Make Sure pip and git are installed
 3. Install the package
    ```bash
