@@ -4,7 +4,7 @@ from typing import Optional, Self
 from datetime import datetime, timedelta, timezone
 
 from .exceptions import SarvException
-from ._base import ModulesMixin
+from ._mixins import ModulesMixin
 from .type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
 
 from .modules._base import SarvModule
