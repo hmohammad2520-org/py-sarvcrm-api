@@ -28,7 +28,9 @@ class SarvModule:
             _client (SarvClient): The client used for making API requests to Sarv CRM.
         """
         from sarvcrm_api import SarvClient
+        from sarvcrm_api.sarv_url import URL
         self._client: SarvClient = _client
+        self.url: URL = URL(self)
 
     def create_get_parms(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
         """
