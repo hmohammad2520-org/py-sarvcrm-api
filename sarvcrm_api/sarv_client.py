@@ -178,7 +178,8 @@ class SarvClient(ModulesMixin):
             except json.decoder.JSONDecodeError:
                 if 'MySQL Error' in response.text:
                     response_dict: dict = {
-                        'message': 'There are Errors in the database\nif you are sending raw SQL Query to server please check syntax and varibles'}
+                        'message': 'There are Errors in the database\nif you are sending raw SQL Query to server please check syntax and varibles'
+                    }
 
                 else:
                     response_dict: dict = {'message': 'Unkhown error'}
