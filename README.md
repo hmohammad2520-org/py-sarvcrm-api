@@ -38,7 +38,7 @@ from sarvcrm_api import SarvClient, SarvURL
 # Initialize the client
 client = SarvClient(
     base_url=SarvURL, # you can specify your own url if you have local server
-    utype="youre_instance_utype",
+    utype="your_instance_utype",
     username="your_username",
     password="your_password",
     language="en_US"
