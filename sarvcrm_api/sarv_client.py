@@ -3,6 +3,8 @@ from requests import Response, request
 from typing import Optional, Self
 from datetime import datetime, timedelta, timezone
 
+from .sarv_url import SarvFrontend, SarvURL
+
 from .exceptions import SarvException
 from ._mixins import ModulesMixin
 from .type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
@@ -17,11 +19,12 @@ class SarvClient(ModulesMixin):
     """
 
     def __init__(
-            self, 
-            base_url: str,
+            self,
             utype: str,
             username: str,
             password: str,
+            api_url: str = SarvURL,
+            frontend_url: str = SarvFrontend,
             login_type: Optional[str] = None, 
             language: SarvLanguageType = 'en_US',
             is_password_md5: bool = False,
@@ -30,20 +33,22 @@ class SarvClient(ModulesMixin):
         Initialize the SarvClient.
 
         Args:
-            base_url (str): The base URL for the SarvCRM API.
             utype (str): The user type for authentication.
             username (str): The username for authentication.
             password (str): The password for authentication.
+            api_url (str): URL of the sarvcrm API, if you dont use the cloud version specify the local server.
+            frontend_url (str): Frontend url for link generation, if you dont use the cloud version specify the local server.
             login_type (Optional[str]): The login type for authentication.
             language (SarvLanguageType): The language to use, default is 'en_US'.
             is_password_md5 (bool): Whether the password is already hashed using MD5.
         """
 
-        self.base_url = base_url
         self.utype = utype
         self.username = username
         self.login_type = login_type
         self.language = language
+        self.api_url = api_url
+        self.frontend_url = frontend_url
 
         if is_password_md5 == True:
             self.password = password
@@ -161,7 +166,7 @@ class SarvClient(ModulesMixin):
 
         response:Response = request(
             method=request_method,
-            url = self.base_url,
+            url = self.api_url,
             params = get_parms,
             headers = head_parms,
             json = post_parms,
@@ -267,6 +272,22 @@ class SarvClient(ModulesMixin):
             get_parms=self.create_get_parms('SearchByNumber', sarv_module=module, number=number),
             )
 
+
+    def get_detail_url_by_number(
+            self,
+            number: str,
+    ) -> str:
+        """
+        Returns the frontned url of full detail view of number.
+
+        Args:
+            number (str): The phone number to create url.
+        
+        Returns:
+            str: url of the detail detail view.
+        """
+        return f'{self.frontend_url}?utype={self.utype}&module=Customer_Console&callerid={number}'
+        
 
     def __enter__(self) -> Self:
         """Basic Context Manager for clean code execution"""

@@ -1,5 +1,4 @@
 from typing import Optional
-from sarvcrm_api.sarv_url import SarvFrontend
 
 class UrlMixins:
     """
@@ -18,7 +17,7 @@ class UrlMixins:
             Returns:
                 specified URL.
             """
-            return f"{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=EditView{'&record='+pk if pk else ''}"
+            return f"{self._client.frontend_url}?utype={self._client.utype}&module={self._module_name}&action=EditView{'&record='+pk if pk else ''}"
 
 
     class ListView:
@@ -29,7 +28,7 @@ class UrlMixins:
             Returns:
                 specified URL.
             """
-            return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=ListView'
+            return f'{self._client.frontend_url}?utype={self._client.utype}&module={self._module_name}&action=ListView'
 
 
     class DetailView:
@@ -43,4 +42,4 @@ class UrlMixins:
             Returns:
                 specified URL.
             """
-            return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=DetailView&record={pk}'
+            return f'{self._client.frontend_url}?utype={self._client.utype}&module={self._module_name}&action=DetailView&record={pk}'
