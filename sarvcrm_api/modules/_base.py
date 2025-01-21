@@ -115,7 +115,6 @@ class SarvModule:
         Returns:
             list: A list of all items from the module.
         """
-
         offset = 0
         all_list = []
         new = ['']
