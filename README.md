@@ -31,21 +31,18 @@ The **SarvClient** module provides a Python interface for interacting with the S
 ### Example Usage
 
 ```python
-from sarvcrm_api import SarvClient, SarvURL
-
-# SarvURL = 'https://app.sarvcrm.com/API.php'
+from sarvcrm_api import SarvClient
 
 # Initialize the client
 client = SarvClient(
-    base_url=SarvURL, # you can specify your own url if you have local server
     utype="youre_instance_utype",
     username="your_username",
     password="your_password",
-    language="en_US"
+    language="en_US",
 )
 
 # Use as a context manager for clean execution
-print(f'Connecting to {SarvURL}')
+print(f'Connecting to {client.api_url}')
 with client:
     # Create new item in Accounts
     uid = client.Accounts.create(type='Corporate', name='RadinSystem', numbers=['02145885000'])
@@ -56,7 +53,7 @@ with client:
     print(f'Single Account record: {record}')
 
     # Read List of items
-    records = client.Accounts.read_list(order_by='name')
+    records = client.Accounts.read_list(order_by='name', limit=10)
     print('Accounts list:')
     for account in Accounts:
         print(f' - {account}')
@@ -68,6 +65,10 @@ with client:
     # Search for data by phone number
     result = client.search_by_number(number="02145885000", module=client.Accounts) # module is optional
     print(f'Search by number result: {result}')
+
+    # Create URL
+    url = client.Accounts.get_url_detail_view(pk=uid)
+    print(f'Item link: {url}')
 
     # Delete Item
     deleted_item = client.Accounts.delete(uid)
@@ -84,10 +85,11 @@ with client:
 #### Constructor
 ```python
 SarvClient(
-    base_url: str,
     utype: str,
     username: str,
     password: str,
+    api_url: str = SarvURL,
+    frontend_url: str = SarvFrontend,
     login_type: Optional[str] = None, # eg. 'portal' for portal users
     language: str = "en_US", # Options: fa_IR, en_US
     is_password_md5: bool = False
@@ -95,30 +97,32 @@ SarvClient(
 ```
 
 **Parameters**:
-- `base_url`: The base URL for the SarvCRM API.
 - `utype`: Utype of your sarvcrm instance.
 - `username`: Your SarvCRM username.
 - `password`: Password for authentication.
+- `api_url`: URL of the Sarvcrm api, if you dont use the cloud version, specify local server
+- `frontend_url`: URL of the Sarvcrm frontend, if you dont use the cloud version, specify local server
 - `login_type`: (Optional) Login type for advanced configurations.
 - `language`: Language code (default: `en_US`).
 - `is_password_md5`: Whether the password is already MD5-hashed.
-
 ---
 
-### Methods
+#### Methods
 
-#### `iso_time_output`
-Formats `datetime` or `timedelta` objects according to SarvCRM standards.
+- `iso_time_output`
+    Formats `datetime` or `timedelta` objects according to SarvCRM standards.
 
-#### `login`
-Authenticates the user and retrieves an access token.
+- `login`
+    Authenticates the user and retrieves an access token.
 
-#### `logout`
-Clears the session token.
+- `logout`
+    Clears the session token.
 
-#### `search_by_number`
-Searches a module or all modules for records matching a given phone number.
+- `search_by_number`
+    Searches a module or all modules for records matching a given phone number.
 
+- `get_detail_url_by_number`
+    returns the detail view url of the specified number.
 ---
 
 **Attributes**:
@@ -144,32 +148,41 @@ SarvModule(_client: SarvClient)
 
 #### Methods
 
-- `create(**KWArgs) -> str`
+- `create`
     Creates a new record in the module.
 
-- `read_list(query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, limit: int = None, offset: int = None) -> list`
+- `read_list`
     Retrieves a list of items from the module.
 
-- `real_list_all(query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, item_buffer: int = 300) -> list`
+- `real_list_all`
     Retrieves all items as a list from the module.
 
-- `read_record(pk: str) -> dict`
+- `read_record`
     Fetches a single record by ID.
 
-- `update(pk: str, **fields_data) -> str`
+- `update`
     Updates an existing record.
 
-- `delete(pk: str) -> str | None`
+- `delete`
     Deletes a record by ID.
 
-- `get_module_fields() -> dict[str, dict]`
+- `get_module_fields`
     Retrieves the fields of the module.
 
-- `get_relationships(related_field: str, query: Optional[str] = None, order_by: Optional[str] = None, select_fields: Optional[list[str]] = None, limit: int = None, offset: int = None) -> list`
+- `get_relationships`
     Fetches related items.
 
-- `save_relationships(pk: str, field_name: str, related_records: list) -> list`
+- `save_relationships`
     Saves relationships between records.
+
+- `get_url_edit_view`
+    returns the editview url
+
+- `get_url_list_view`
+    returns list view url
+
+- `get_url_detail_view`
+    returns detail view url
 
 ---
 
