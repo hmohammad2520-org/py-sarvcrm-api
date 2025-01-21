@@ -35,7 +35,7 @@ from sarvcrm_api import SarvClient
 
 # Initialize the client
 client = SarvClient(
-    utype="youre_instance_utype",
+    utype="your_instance_utype",
     username="your_username",
     password="your_password",
     language="en_US",
