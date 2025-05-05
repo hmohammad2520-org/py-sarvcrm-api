@@ -3,7 +3,7 @@ from requests import Response, request
 from typing import Optional, Self
 from datetime import datetime, timedelta, timezone
 
-from .sarv_url import SarvFrontend, SarvURL
+from ._url import SarvFrontend, SarvURL
 
 from .exceptions import SarvException
 from ._mixins import ModulesMixin
