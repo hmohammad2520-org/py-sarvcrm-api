@@ -9,7 +9,7 @@ setup(
     author_email='technical@rsto.ir',
     url='https://github.com/Radin-System/py-sarvcrm-api',
     install_requires=[
-        'requests==2.32.3',
+        'requests==2.32.4',
     ],
     packages=find_packages(),
     include_package_data=True,
