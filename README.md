@@ -83,6 +83,12 @@ with client:
 
 ---
 
+## Developers
+
+### Testing
+  - **Pytest Support**: For testing create the `.env` file from `.env_example` and use pytest for start testing.
+  - **Test Cases**: For now simple test methods are used and more test cases will be add soon.
+
 ## License
 
 This module is licensed for Radin System. For details, see the [LICENSE](LICENSE) file.

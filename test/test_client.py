@@ -3,7 +3,7 @@ from sarvcrm_api import SarvClient, SarvURL
 
 dotenv.load_dotenv()
 
-sarv_client = SarvClient(
+client = SarvClient(
     SarvURL,
     os.environ.get('SARVCRM_UTYPE', ''),
     os.environ.get('SARVCRM_USERNAME', ''),
@@ -11,14 +11,22 @@ sarv_client = SarvClient(
     is_password_md5=bool(os.environ.get('SARVCRM_PASS_MD5', False))
 )
 
+# must be first
 def test_login():
-    assert sarv_client.login()
+    with client:
+        assert client.login()
+
 
 def test_query_accounts():
-    assert sarv_client.Accounts.read_list()
+    with client:
+        assert client.Accounts.read_list()
 
 def test_query_by_number():
-    assert sarv_client.search_by_number('02145885')
+    with client:
+        assert client.search_by_number('02145885')
 
+
+# must be at the end
 def test_logout():
-    assert sarv_client.logout() is None
+    with client:
+        assert client.logout() is None
