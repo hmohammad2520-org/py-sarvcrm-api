@@ -79,7 +79,7 @@ class SarvModule:
         Returns:
             list: A list of items from the module.
         """
-        post_parms = {
+        post_params = {
             'query': query,
             'order_by': order_by,
             'select_fields': select_fields,
@@ -87,12 +87,12 @@ class SarvModule:
             'offset': offset
         }
 
-        post_parms = {k: v for k, v in post_parms.items() if v is not None}
+        post_params = {k: v for k, v in post_params.items() if v is not None}
 
         return self._client.send_request(
             request_method='POST',
             get_params=self.create_get_params('Retrieve'),
-            post_params=post_parms,
+            post_params=post_params,
         )
 
     def read_list_all(
@@ -213,19 +213,19 @@ class SarvModule:
         Returns:
             list: A list of related items.
         """
-        post_parms = {
+        post_params = {
             'query': query,
             'order_by': order_by,
             'select_fields': select_fields,
             'limit': limit,
             'offset': offset
         }
-        post_parms = {k: v for k, v in post_parms.items() if v is not None}
+        post_params = {k: v for k, v in post_params.items() if v is not None}
 
         return self._client.send_request(
             request_method='POST',
             get_params=self.create_get_params('GetRelationship', related_field=related_field),
-            post_params=post_parms,
+            post_params=post_params,
         )
 
     def save_relationships(

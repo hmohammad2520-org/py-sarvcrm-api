@@ -148,7 +148,7 @@ class SarvClient(ModulesMixin):
             request_method (RequestMethod): The HTTP method for the request ('GET', 'POST', etc.).
             head_parms (dict): The headers for the request.
             get_parms (dict): The GET parameters for the request.
-            post_parms (dict): The POST parameters for the request.
+            post_params (dict): The POST parameters for the request.
 
         Returns:
             Any: The data parameter from the server response that can be `List` or `Dict`
@@ -202,19 +202,19 @@ class SarvClient(ModulesMixin):
         Returns:
             str: The access token for authenticated requests.
         """
-        post_parms = {
+        post_params = {
             'utype': self.utype,
             'user_name': self.username,
             'password': self.password,
             'login_type': self.login_type,
             'language': self.language,
         }
-        post_parms = {k: v for k, v in post_parms.items() if v is not None}
+        post_params = {k: v for k, v in post_params.items() if v is not None}
 
         data: Dict[str, Any] = self.send_request(
             request_method='POST',
             get_params=self.create_get_params('Login'), 
-            post_params=post_parms,
+            post_params=post_params,
         )
 
         token = data.get('token', '')
@@ -288,4 +288,4 @@ class SarvClient(ModulesMixin):
         Returns:
             str: A simplified string representation of the instance.
         """
-        return f'<SarvClient {self.utype}>'
+        return f'<SarvClient {self.utype}-{self.username}>'
