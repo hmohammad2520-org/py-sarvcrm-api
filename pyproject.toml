@@ -9,7 +9,7 @@ description = "Simple sarvcrm api module"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Radin-System", email = "technical@rsto.ir" }
+    { name = "hmohammad", email = "hmohammad2520@gmail.com" }
 ]
 keywords = ["python", "library", "sarvcrm", "hamkaransystem", "api"]
 classifiers = [
@@ -23,5 +23,5 @@ dependencies = [
 requires-python = ">=3.9"
 
 [project.urls]
-Homepage = "https://github.com/Radin-System/py-sarvcrm-api"
-BugTracker = "https://github.com/Radin-System/py-sarvcrm-api/issues"
+Homepage = "https://github.com/hmohammad2520-org/py-sarvcrm-api"
+BugTracker = "https://github.com/hmohammad2520-org/py-sarvcrm-api/issues"
