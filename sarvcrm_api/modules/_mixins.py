@@ -6,7 +6,6 @@ class UrlMixin:
     """
     Class Mixin for Managing URL Generation in this module
     """
-
     _client: Type
     _module_name: str
 
