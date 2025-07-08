@@ -262,7 +262,9 @@ class SarvClient(ModulesMixin):
 
     def __enter__(self) -> Self:
         """Basic Context Manager for clean code execution"""
-        self.login()
+        if not self.token:
+            self.login()
+
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
