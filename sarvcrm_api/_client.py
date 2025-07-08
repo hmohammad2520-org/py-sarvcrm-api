@@ -1,14 +1,9 @@
-import json, hashlib
-from requests import Response, request
-from typing import Optional, Self
+import json, hashlib, requests
+from typing import Any, Dict, List, Optional, Self
 from datetime import datetime, timedelta, timezone
-
-from ._url import SarvFrontend, SarvURL
-
-from .exceptions import SarvException
+from ._exceptions import SarvException
 from ._mixins import ModulesMixin
-from .type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
-
+from ._type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
 from .modules._base import SarvModule
 
 
@@ -17,55 +12,62 @@ class SarvClient(ModulesMixin):
     SarvClient provides methods for interacting with the SarvCRM API. 
     It supports authentication, data retrieval, and other API functionalities.
     """
-
     def __init__(
             self,
+            url: str,
             utype: str,
             username: str,
             password: str,
-            api_url: str = SarvURL,
-            frontend_url: str = SarvFrontend,
-            login_type: Optional[str] = None, 
+            login_type: Optional[str] = None,
             language: SarvLanguageType = 'en_US',
             is_password_md5: bool = False,
-            ) -> None:
+        ) -> None:
         """
         Initialize the SarvClient.
 
         Args:
+            url (str): The base URL for the SarvCRM API.
             utype (str): The user type for authentication.
             username (str): The username for authentication.
             password (str): The password for authentication.
-            api_url (str): URL of the sarvcrm API, if you dont use the cloud version specify the local server.
-            frontend_url (str): Frontend url for link generation, if you dont use the cloud version specify the local server.
             login_type (Optional[str]): The login type for authentication.
             language (SarvLanguageType): The language to use, default is 'en_US'.
             is_password_md5 (bool): Whether the password is already hashed using MD5.
         """
-
+        self.url = url
         self.utype = utype
         self.username = username
+        self.password = password if is_password_md5 else self.hash_password(password)
         self.login_type = login_type
         self.language = language
-        self.api_url = api_url
-        self.frontend_url = frontend_url
-
-        if is_password_md5 == True:
-            self.password = password
-        else:
-            self.password = hashlib.md5(password.encode('utf-8')).hexdigest()
 
         self.token: str = ''
+        self._session = requests.session()
+        self._session.headers.update({'Content-Type': 'application/json'})
+        self._session.headers.update({'Accept': 'application/json'})
 
         super().__init__()
 
 
-    def create_get_parms(
+    @staticmethod
+    def hash_password(password: str) -> str:
+        """
+        Returns the acceptable hash for SarvCRM Login
+
+        Args:
+            password(str): your password
+        
+        Returns:
+            str: md5 hashed password
+        """
+        return hashlib.md5(password.encode('utf-8')).hexdigest()
+
+    def create_get_params(
             self, 
             sarv_get_method: Optional[SarvGetMethods] = None,
             sarv_module: Optional[SarvModule | str] = None,
             **addition
-            ) -> dict:
+        ) -> Dict[str, Any]:
         """
         Create the GET parameters with the method and module.
 
@@ -98,7 +100,7 @@ class SarvClient(ModulesMixin):
 
         return get_parms
 
-
+    @staticmethod
     def iso_time_output(output_method: TimeOutput, dt: datetime | timedelta) -> str:
         """
         Generate a formatted string from a datetime or timedelta object.
@@ -133,11 +135,12 @@ class SarvClient(ModulesMixin):
 
     def send_request(
             self, 
-            request_method: RequestMethod, 
-            head_parms: Optional[dict] = None,
-            get_parms: Optional[dict] = None,
-            post_parms: Optional[dict] = None,
-            ) -> dict:
+            request_method: RequestMethod,
+            endpoint: Optional[str] = None,
+            head_params: Optional[dict] = None,
+            get_params: Optional[dict] = None,
+            post_params: Optional[dict] = None,
+        ) -> Any:
         """
         Send a request to the Sarv API and return the response data.
 
@@ -148,70 +151,48 @@ class SarvClient(ModulesMixin):
             post_parms (dict): The POST parameters for the request.
 
         Returns:
-            dict: The data parameter from the server response.
+            Any: The data parameter from the server response that can be `List` or `Dict`
 
         Raises:
             SarvException: If the server returns an error response.
         """
-
-        head_parms = head_parms or {}
-        get_parms = get_parms or {}
-        post_parms = post_parms or {}
-
-        # Default Header
-        head_parms['Content-Type'] = 'application/json'
+        head_params = head_params or {}
+        get_params = get_params or {}
+        post_params = post_params or {}
 
         if self.token:
-            head_parms['Authorization'] = f'Bearer {self.token}'
+            head_params['Authorization'] = f'Bearer {self.token}'
 
-        response:Response = request(
-            method=request_method,
-            url = self.api_url,
-            params = get_parms,
-            headers = head_parms,
-            json = post_parms,
+        response: requests.Response = self._session.request(
+            method = request_method,
+            url = self.url + f'{endpoint if endpoint else ''}',
+            headers = head_params,
+            params = get_params,
+            json = post_params,
             verify = True,
-            )
+        )
 
         # Check for Server respond
-        if 200 <= response.status_code < 500:
-            try:
-                # Deserialize sarvcrm servers response
-                response_dict: dict = json.loads(response.text)
+        try:
+            # Deserialize sarvcrm servers response
+            response_dict: dict = response.json()
 
-            # Checking for invalid response
-            except json.decoder.JSONDecodeError:
-                if 'MySQL Error' in response.text:
-                    response_dict: dict = {
-                        'message': 'There are Errors in the database\nif you are sending raw SQL Query to server please check syntax and varibles'
-                    }
-
-                else:
-                    response_dict: dict = {'message': 'Unkhown error'}
-
-            except Exception as e:
+        # Raise this on quirky responses from Sarvcrm servers
+        # Sometimes the servers send other content types instead of json
+        except json.decoder.JSONDecodeError:
+            if 'MySQL Error' in response.text:
                 raise SarvException(
-                    f'There is problem while converting response to json: {e}'
-                    )
+                    'There are Errors in the database\n'
+                    'if you are sending raw SQL Query to server\n'
+                    'please check syntax and varible names'
+                )
+            else:
+                raise SarvException(
+                    'Unkhown Error From Server while parsing json'
+                )
 
-        else:
-            # Raise on server side http error
-            response.raise_for_status()
-
-        # Initiate server response
-        if 200 <= response.status_code < 300:
-            data = response_dict.get('data', {})
-            return data
-
-        elif 300 <= response.status_code < 400:
-            raise SarvException(
-                f"Redirection Response: {response.status_code} - {response_dict.get('message', 'Unknown error')}"
-            )
-
-        else:
-            raise SarvException(
-                f"{response.status_code} - {response_dict.get('message', 'Unknown error')}"
-            )
+        response.raise_for_status()
+        return response_dict.get('data', {})
 
 
     def login(self) -> str:
@@ -227,20 +208,22 @@ class SarvClient(ModulesMixin):
             'password': self.password,
             'login_type': self.login_type,
             'language': self.language,
-            }
+        }
         post_parms = {k: v for k, v in post_parms.items() if v is not None}
 
-        data = self.send_request(
+        data: Dict[str, Any] = self.send_request(
             request_method='POST',
-            get_parms=self.create_get_parms('Login'), 
-            post_parms=post_parms,
-            )
+            get_params=self.create_get_params('Login'), 
+            post_params=post_parms,
+        )
 
-        if data:
-            self.token = data.get('token')
+        token = data.get('token', '')
 
-        return self.token
-
+        if token is not None:
+            self.token = token
+            return self.token
+        else:
+            raise SarvException('client did not get token from login request')
 
     def logout(self) -> None:
         """
@@ -255,8 +238,8 @@ class SarvClient(ModulesMixin):
     def search_by_number(
             self,
             number: str,
-            module: Optional[SarvModule | str] = None
-            ) -> list[dict]:
+            module: Optional[SarvModule | str] = None,
+            ) -> List[Dict[str, Any]]:
         """
         Search the CRM by phone number and retrieve the module item.
 
@@ -268,32 +251,19 @@ class SarvClient(ModulesMixin):
             dict: The data related to the phone number if found.
         """
         return self.send_request(
-            request_method='GET',
-            get_parms=self.create_get_parms('SearchByNumber', sarv_module=module, number=number),
-            )
+            request_method = 'GET',
+            get_params = self.create_get_params(
+                'SearchByNumber', 
+                sarv_module = module, 
+                number = number,
+            ),
+        )
 
-
-    def get_detail_url_by_number(
-            self,
-            number: str,
-    ) -> str:
-        """
-        Returns the frontned url of full detail view of number.
-
-        Args:
-            number (str): The phone number to create url.
-        
-        Returns:
-            str: url of the detail detail view.
-        """
-        return f'{self.frontend_url}?utype={self.utype}&module=Customer_Console&callerid={number}'
-        
 
     def __enter__(self) -> Self:
         """Basic Context Manager for clean code execution"""
         self.login()
         return self
-
 
     def __exit__(self, exc_type, exc_value, traceback):
         """Basic Context Manager for clean code execution"""
@@ -308,7 +278,6 @@ class SarvClient(ModulesMixin):
             str: A string containing the class name and key attributes.
         """
         return f'{self.__class__.__name__}(utype={self.utype}, username={self.username})'
-
 
     def __str__(self) -> str:
         """

@@ -1,5 +1,5 @@
 from typing import Any, Optional
-from sarvcrm_api.type_hints import SarvGetMethods
+from sarvcrm_api._type_hints import SarvGetMethods
 
 BASE_LIMIT = 300
 BASE_OFFSET = 0
@@ -30,7 +30,7 @@ class SarvModule:
         from sarvcrm_api import SarvClient
         self._client: SarvClient = _client
 
-    def create_get_parms(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
+    def create_get_params(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
         """
         Constructs the parameters for a 'GET' request based on the provided method and additional parameters.
 
@@ -41,7 +41,7 @@ class SarvModule:
         Returns:
             dict: The parameters to be used in the GET request.
         """
-        return self._client.create_get_parms(sarv_get_method, self, **addition)
+        return self._client.create_get_params(sarv_get_method, self, **addition)
 
     def create(self, **fields_data) -> str:
         """
@@ -55,8 +55,8 @@ class SarvModule:
         """
         return self._client.send_request(
             request_method='POST',
-            get_parms=self.create_get_parms('Save'),
-            post_parms=fields_data,
+            get_params=self.create_get_params('Save'),
+            post_params=fields_data,
         ).get('id', {})
 
     def read_list(
@@ -92,8 +92,8 @@ class SarvModule:
 
         return self._client.send_request(
             request_method='POST',
-            get_parms=self.create_get_parms('Retrieve'),
-            post_parms=post_parms,
+            get_params=self.create_get_params('Retrieve'),
+            post_params=post_parms,
         )
 
     def read_list_all(
@@ -115,6 +115,7 @@ class SarvModule:
         Returns:
             list: A list of all items from the module.
         """
+
         offset = 0
         all_list = []
         new = ['']
@@ -143,7 +144,7 @@ class SarvModule:
         """
         return self._client.send_request(
             request_method='GET',
-            get_parms=self.create_get_parms('Retrieve', id=pk),
+            get_params=self.create_get_params('Retrieve', id=pk),
         )[0]
 
     def update(self, pk: str, **fields_data) -> str:
@@ -159,8 +160,8 @@ class SarvModule:
         """
         return self._client.send_request(
             request_method='PUT',
-            get_parms=self.create_get_parms('Save', id=pk),
-            post_parms=fields_data,
+            get_params=self.create_get_params('Save', id=pk),
+            post_params=fields_data,
         ).get('id')
 
     def delete(self, pk: str) -> str | None:
@@ -175,7 +176,7 @@ class SarvModule:
         """
         return self._client.send_request(
             request_method='DELETE',
-            get_parms=self.create_get_parms('Save', id=pk),
+            get_params=self.create_get_params('Save', id=pk),
         ).get('id')
 
     def get_module_fields(self) -> dict[str, dict]:
@@ -187,7 +188,7 @@ class SarvModule:
         """
         return self._client.send_request(
             request_method='GET',
-            get_parms=self.create_get_parms('GetModuleFields'),
+            get_params=self.create_get_params('GetModuleFields'),
         )
 
     def get_relationships(
@@ -224,8 +225,8 @@ class SarvModule:
 
         return self._client.send_request(
             request_method='POST',
-            get_parms=self.create_get_parms('GetRelationship', related_field=related_field),
-            post_parms=post_parms,
+            get_params=self.create_get_params('GetRelationship', related_field=related_field),
+            post_params=post_parms,
         )
 
     def save_relationships(
@@ -247,8 +248,8 @@ class SarvModule:
         """
         return self._client.send_request(
             request_method='POST',
-            get_parms=self.create_get_parms('SaveRelationships', id=pk),
-            post_parms={'field_name': field_name, 'related_records': related_records},
+            get_params=self.create_get_params('SaveRelationships', id=pk),
+            post_params={'field_name': field_name, 'related_records': related_records},
         )
 
     def __repr__(self) -> str:

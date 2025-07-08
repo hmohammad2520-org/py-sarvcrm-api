@@ -1,11 +1,15 @@
-from typing import Optional
+from typing import Optional, Type
+
+from sarvcrm_api._url import SarvFrontend
 
 class UrlMixins:
     """
     Class Mixin for Managing URL Generation in this module
     """
-
     class EditView:
+        _client: Type
+        _module_name: str
+
         def get_url_edit_view(self, pk: Optional[str] = None) -> str:
             """
             Returns Edit View of the Module or Create View of the Module.
@@ -17,10 +21,12 @@ class UrlMixins:
             Returns:
                 specified URL.
             """
-            return f"{self._client.frontend_url}?utype={self._client.utype}&module={self._module_name}&action=EditView{'&record='+pk if pk else ''}"
-
+            return f"{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=EditView{'&record='+pk if pk else ''}"
 
     class ListView:
+        _client: Type
+        _module_name: str
+
         def get_url_list_view(self) -> str:
             """
             Returns List View of the Module.
@@ -28,10 +34,12 @@ class UrlMixins:
             Returns:
                 specified URL.
             """
-            return f'{self._client.frontend_url}?utype={self._client.utype}&module={self._module_name}&action=ListView'
-
+            return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=ListView'
 
     class DetailView:
+        _client: Type
+        _module_name: str
+
         def get_url_detail_view(self, pk: str) -> str:
             """
             Returns the Detail View of the specified record with ID.
@@ -42,4 +50,4 @@ class UrlMixins:
             Returns:
                 specified URL.
             """
-            return f'{self._client.frontend_url}?utype={self._client.utype}&module={self._module_name}&action=DetailView&record={pk}'
+            return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=DetailView&record={pk}'
