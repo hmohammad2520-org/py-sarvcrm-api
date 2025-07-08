@@ -1,5 +1,6 @@
 import os, dotenv
-from sarvcrm_api import SarvClient, SarvURL
+from requests import HTTPError
+from sarvcrm_api import SarvClient, SarvException, SarvURL
 
 dotenv.load_dotenv()
 
@@ -26,6 +27,7 @@ def test_query_by_number():
 def test_logout():
     with client:
         assert client.logout() is None
-        try: test_query_by_number(); return
-        except AssertionError: ...
-        raise AssertionError('Excepted assertion error on data call')
+        try: 
+            client.Accounts.read_list(limit=1)
+        except (HTTPError, SarvException): ...
+        raise AssertionError('Excepted HTTPError or SarvException on data from server')
