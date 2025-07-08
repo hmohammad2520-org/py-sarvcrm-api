@@ -11,22 +11,21 @@ client = SarvClient(
     is_password_md5=bool(os.environ.get('SARVCRM_PASS_MD5', False))
 )
 
-# must be first
 def test_login():
     with client:
-        assert client.login()
-
+        assert client.login(), 'Excepted token from server'
 
 def test_query_accounts():
     with client:
-        assert client.Accounts.read_list()
+        assert client.Accounts.read_list(), 'Excepted data from server'
 
 def test_query_by_number():
     with client:
-        assert client.search_by_number('02145885')
+        assert client.search_by_number('02145885'), 'Excepted data from server'
 
-
-# must be at the end
 def test_logout():
     with client:
         assert client.logout() is None
+        try: test_query_by_number(); return
+        except AssertionError: ...
+        raise AssertionError('Excepted assertion error on data call')
