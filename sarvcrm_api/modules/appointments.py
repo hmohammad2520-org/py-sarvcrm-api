@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class Appointments(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class Appointments(SarvModule, UrlMixin):
     _module_name = 'Appointments'
     _label_en = 'Appointments'
     _label_pr = 'بازدیدها'

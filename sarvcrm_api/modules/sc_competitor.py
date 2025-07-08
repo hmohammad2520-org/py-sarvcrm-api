@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class ScCompetitor(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class ScCompetitor(SarvModule, UrlMixin):
     _module_name = 'sc_competitor'
     _label_en = 'Competitor'
     _label_pr = 'رقبا'

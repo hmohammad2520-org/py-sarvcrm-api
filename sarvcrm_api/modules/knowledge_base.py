@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class KnowledgeBase(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class KnowledgeBase(SarvModule, UrlMixin):
     _module_name = 'Knowledge_Base'
     _label_en = 'Knowledge Base'
     _label_pr = 'پایگاه دانش'

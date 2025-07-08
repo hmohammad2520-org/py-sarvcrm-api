@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class Opportunities(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class Opportunities(SarvModule, UrlMixin):
     _module_name = 'Opportunities'
     _label_en = 'Opportunities'
     _label_pr = 'فرصت ها'

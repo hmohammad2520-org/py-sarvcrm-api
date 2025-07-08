@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class Accounts(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class Accounts(SarvModule, UrlMixin):
     _module_name = 'Accounts'
     _label_en = 'Accounts'
     _label_pr = 'حساب ها'

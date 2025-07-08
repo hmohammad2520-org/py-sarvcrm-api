@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class Approval(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class Approval(SarvModule, UrlMixin):
     _module_name = 'Approval'
     _label_en = 'Approval'
     _label_pr = 'تاییدیه'

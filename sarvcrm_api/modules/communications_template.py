@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class CommunicationsTemplate(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class CommunicationsTemplate(SarvModule, UrlMixin):
     _module_name = 'Communications_Template'
     _label_en = 'Communications Template'
     _label_pr = 'قالب ارتباطات'
