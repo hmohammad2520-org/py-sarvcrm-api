@@ -11,7 +11,7 @@ SarvGetMethods: TypeAlias = Literal[
     'GetRelationship',
     'SaveRelationships',
     'SearchByNumber',
-    ]
+]
 
 __all__ = [
     'TimeOutput',
