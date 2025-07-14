@@ -22,10 +22,6 @@ class UrlMixin:
         """
         return f"{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=EditView{'&record='+pk if pk else ''}"
 
-
-    _client: Type
-    _module_name: str
-
     def get_url_list_view(self) -> str:
         """
         Returns List View of the Module.
@@ -34,9 +30,6 @@ class UrlMixin:
             specified URL.
         """
         return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=ListView'
-
-    _client: Type
-    _module_name: str
 
     def get_url_detail_view(self, pk: str) -> str:
         """
