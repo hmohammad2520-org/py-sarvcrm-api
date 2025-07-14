@@ -9,7 +9,7 @@ client = SarvClient(
     os.environ.get('SARVCRM_UTYPE', ''),
     os.environ.get('SARVCRM_USERNAME', ''),
     os.environ.get('SARVCRM_PASSWORD', ''),
-    is_password_md5=bool(os.environ.get('SARVCRM_PASS_MD5', False))
+    is_password_md5=bool(os.environ.get('SARVCRM_PASS_MD5', False)),
 )
 
 def test_login():
@@ -27,7 +27,14 @@ def test_query_by_number():
 def test_logout():
     with client:
         assert client.logout() is None
-        try: 
-            client.Accounts.read_list(limit=1)
+        try: client.Accounts.read_list(limit=1)
         except (HTTPError, SarvException): ...
         raise AssertionError('Excepted HTTPError or SarvException on data from server')
+
+def test_caching():
+    with client:
+        client.enable_caching()
+        base_contacts = client.Contacts.read_list_all(caching=True, expire_after=5)
+        cached_contacts = client.Contacts.read_list_all(caching=True)
+
+    assert base_contacts == cached_contacts

@@ -29,7 +29,7 @@ class SarvModule:
         from sarvcrm_api import SarvClient
         self._client: SarvClient = _client
 
-    def create_get_params(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
+    def _create_get_params(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
         """
         Constructs the parameters for a 'GET' request based on the provided method and additional parameters.
 
@@ -40,7 +40,7 @@ class SarvModule:
         Returns:
             dict: The parameters to be used in the GET request.
         """
-        return self._client.create_get_params(sarv_get_method, self, **addition)
+        return self._client._create_get_params(sarv_get_method, self, **addition)
 
     def create(self, **fields_data) -> str:
         """
@@ -52,20 +52,22 @@ class SarvModule:
         Returns:
             str: The ID of the newly created item.
         """
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='POST',
-            get_params=self.create_get_params('Save'),
+            get_params=self._create_get_params('Save'),
             post_params=fields_data,
         ).get('id', {})
 
     def read_list(
-        self,
-        query: Optional[str] = None,
-        order_by: Optional[str] = None,
-        select_fields: Optional[list[str]] = None,
-        limit: int = BASE_LIMIT,
-        offset: int = BASE_OFFSET,
-    ) -> list[dict]:
+            self,
+            query: Optional[str] = None,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            limit: int = BASE_LIMIT,
+            offset: int = BASE_OFFSET,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> list[dict]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
 
@@ -89,19 +91,23 @@ class SarvModule:
 
         post_params = {k: v for k, v in post_params.items() if v is not None}
 
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='POST',
-            get_params=self.create_get_params('Retrieve'),
+            get_params=self._create_get_params('Retrieve'),
             post_params=post_params,
+            caching=caching,
+            expire_after=expire_after,
         )
 
     def read_list_all(
-        self,
-        query: Optional[str] = None,
-        order_by: Optional[str] = None,
-        select_fields: Optional[list[str]] = None,
-        item_buffer: int = BASE_LIMIT,
-    ) -> list[dict]:
+            self,
+            query: Optional[str] = None,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            item_buffer: int = BASE_LIMIT,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> list[dict]:
         """
         Retrieves all of items from the module, optionally filtered by the specified parameters.
 
@@ -114,7 +120,6 @@ class SarvModule:
         Returns:
             list: A list of all items from the module.
         """
-
         offset = 0
         all_list = []
         new = ['']
@@ -125,10 +130,12 @@ class SarvModule:
                 select_fields=select_fields,
                 limit=item_buffer,
                 offset=offset,
-                )
+                caching=caching,
+                expire_after=expire_after,
+            )
             all_list += new
             offset += item_buffer
-        
+
         return all_list
 
     def read_record(self, pk: str) -> dict[str, Any]:
@@ -141,9 +148,9 @@ class SarvModule:
         Returns:
             dict: The data of the retrieved item.
         """
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='GET',
-            get_params=self.create_get_params('Retrieve', id=pk),
+            get_params=self._create_get_params('Retrieve', id=pk),
         )[0]
 
     def update(self, pk: str, **fields_data) -> str:
@@ -157,9 +164,9 @@ class SarvModule:
         Returns:
             str: The ID of the updated item.
         """
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='PUT',
-            get_params=self.create_get_params('Save', id=pk),
+            get_params=self._create_get_params('Save', id=pk),
             post_params=fields_data,
         ).get('id')
 
@@ -173,32 +180,40 @@ class SarvModule:
         Returns:
             str | None: The ID of the deleted item or None if no item was deleted.
         """
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='DELETE',
-            get_params=self.create_get_params('Save', id=pk),
+            get_params=self._create_get_params('Save', id=pk),
         ).get('id')
 
-    def get_module_fields(self) -> dict[str, dict]:
+    def get_module_fields(
+            self,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> dict[str, dict]:
         """
         Retrieves the list of all fields for the module.
 
         Returns:
             dict: A dictionary containing all the fields of the module.
         """
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='GET',
-            get_params=self.create_get_params('GetModuleFields'),
+            get_params=self._create_get_params('GetModuleFields'),
+            caching=caching,
+            expire_after=expire_after,
         )
 
     def get_relationships(
-        self,
-        related_field: str,
-        query: Optional[str] = None,
-        order_by: Optional[str] = None,
-        select_fields: Optional[list[str]] = None,
-        limit: int = BASE_OFFSET,
-        offset: int = BASE_LIMIT,
-    ) -> list:
+            self,
+            related_field: str,
+            query: Optional[str] = None,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            limit: int = BASE_OFFSET,
+            offset: int = BASE_LIMIT,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> list:
         """
         Retrieves a list of related items for a specific field in the module.
 
@@ -222,18 +237,20 @@ class SarvModule:
         }
         post_params = {k: v for k, v in post_params.items() if v is not None}
 
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='POST',
-            get_params=self.create_get_params('GetRelationship', related_field=related_field),
+            get_params=self._create_get_params('GetRelationship', related_field=related_field),
             post_params=post_params,
+            caching=caching,
+            expire_after=expire_after,
         )
 
     def save_relationships(
-        self,
-        pk: str,
-        field_name: str,
-        related_records: list,
-    ) -> list:
+            self,
+            pk: str,
+            field_name: str,
+            related_records: list,
+        ) -> list:
         """
         Saves a relationship between the current item and related records.
 
@@ -245,9 +262,9 @@ class SarvModule:
         Returns:
             list: A list of the related records saved in the relationship.
         """
-        return self._client.send_request(
+        return self._client._send_request(
             request_method='POST',
-            get_params=self.create_get_params('SaveRelationships', id=pk),
+            get_params=self._create_get_params('SaveRelationships', id=pk),
             post_params={'field_name': field_name, 'related_records': related_records},
         )
 

@@ -13,6 +13,7 @@ SarvGetMethods: TypeAlias = Literal[
     'SearchByNumber',
 ]
 
+
 __all__ = [
     'TimeOutput',
     'RequestMethod',
