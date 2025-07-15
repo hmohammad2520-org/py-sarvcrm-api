@@ -1,4 +1,5 @@
 from .accounts import Accounts
+from .acl_roles import ACLRoles
 from .aos_contracts import AosContracts
 from .aos_invoices import AosInvoices
 from .aos_pdf_templates import AosPdfTemplates
@@ -43,6 +44,7 @@ from .vendors import Vendors
 
 __all__ = [
     'Accounts',
+    'ACLRoles',
     'AosContracts',
     'AosInvoices',
     'AosPdfTemplates',

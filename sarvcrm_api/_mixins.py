@@ -4,6 +4,7 @@ class ModulesMixin:
     """This is abstract module for adding sarv modules to sarvclient class"""
     def __init__(self) -> None:
         self.Accounts = Accounts(self)
+        self.ACLRoles = ACLRoles(self)
         self.AosContracts = AosContracts(self)
         self.AosInvoices = AosInvoices(self)
         self.AosPdfTemplates = AosPdfTemplates(self)

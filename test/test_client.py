@@ -42,3 +42,7 @@ def test_caching():
 def test_users():
     with client:
         assert client.Users.read_list()
+
+def test_acl_roles():
+    with client:
+        assert client.ACLRoles.read_list()
