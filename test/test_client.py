@@ -37,4 +37,8 @@ def test_caching():
         base_contacts = client.Contacts.read_list_all(caching=True, expire_after=5)
         cached_contacts = client.Contacts.read_list_all(caching=True)
 
-    assert base_contacts == cached_contacts
+    assert base_contacts == cached_contacts, 'Cached Results are not the same as Base Results'
+
+def test_users():
+    with client:
+        assert client.Users.read_list()

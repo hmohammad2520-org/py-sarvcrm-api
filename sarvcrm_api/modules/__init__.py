@@ -37,6 +37,7 @@ from .sc_contract_management import ScContractManagement
 from .service_centers import ServiceCenters
 from .tasks import Tasks
 from .timesheet import Timesheet
+from .users import Users
 from .vendors import Vendors
 
 
@@ -80,5 +81,6 @@ __all__ = [
     'ServiceCenters',
     'Tasks',
     'Timesheet',
+    'Users',
     'Vendors',
 ]

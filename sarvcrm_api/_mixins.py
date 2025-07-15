@@ -42,4 +42,5 @@ class ModulesMixin:
         self.ServiceCenters = ServiceCenters(self)
         self.Tasks = Tasks(self)
         self.Timesheet = Timesheet(self)
+        self.Users = Users(self)
         self.Vendors = Vendors(self)
