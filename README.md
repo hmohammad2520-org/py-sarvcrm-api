@@ -88,7 +88,7 @@ with client:
 ---
 
 ## Developers
-   - **Contrebiute**: Feel free to fork this repo and send pull request.
+   - **Contribute**: Feel free to fork this repo and send pull request.
 
 ### Testing
   - **Pytest Support**: create the `.env` file from `.env_example` and use pytest to start testing.
