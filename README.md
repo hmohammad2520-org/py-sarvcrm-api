@@ -17,13 +17,12 @@ The **SarvClient** module provides a Python interface for interacting with the S
 
 ## Installation
 
-1. Ensure you have Python 3.9+ installed.
-2. Make Sure pip and git are installed
-3. Install the package
+1. Ensure you have `Python 3.9+` installed.
+2. Make sure `pip` is installed
+4. Install the package
    ```bash
    pip install py-sarvcrm-api
    ```
-
 ---
 
 ## Quick Start
@@ -77,17 +76,18 @@ with client:
 ```
 ## Additional Features
 
-- **Error Handling**: Raise `SarvException` for API errors.
-- **Secure Defaults**: Passwords are hashed with MD5 unless explicitly provided as pre-hashed.
+- **Error Handling**: This module raises `requests.HTTPError` and `SarvException` for API errors.
+- **Secure Defaults**: Passwords are hashed with `MD5` unless explicitly provided as pre-hashed.
 - **Easy Intraction**: Added all modules and methods for easy intraction.
 
 ---
 
 ## Developers
+   - **Contribute**: Feel free to fork this repo and send pull request.
 
 ### Testing
-  - **Pytest Support**: For testing create the `.env` file from `.env_example` and use pytest for start testing.
-  - **Test Cases**: For now simple test methods are used and more test cases will be add soon.
+  - **Pytest Support**: create the `.env` file from `.env_example` and use pytest to start testing.
+  - **Test Cases**: For now simple test methods are used and more test cases will be added soon.
 
 ## License
 
