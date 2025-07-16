@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Any, Optional
 
 from sarvcrm_api._url import SarvFrontend
 
@@ -6,7 +6,7 @@ class UrlMixin:
     """
     Class Mixin for Managing URL Generation in this module
     """
-    _client: Type
+    _client: Any
     _module_name: str
 
     def get_url_edit_view(self, pk: Optional[str] = None) -> str:
@@ -20,7 +20,7 @@ class UrlMixin:
         Returns:
             specified URL.
         """
-        return f"{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=EditView{'&record='+pk if pk else ''}"
+        return f"{SarvFrontend}?utype={self._client._utype}&module={self._module_name}&action=EditView{'&record=' + pk if pk else ''}"
 
     def get_url_list_view(self) -> str:
         """
@@ -29,7 +29,7 @@ class UrlMixin:
         Returns:
             specified URL.
         """
-        return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=ListView'
+        return f'{SarvFrontend}?utype={self._client._utype}&module={self._module_name}&action=ListView'
 
     def get_url_detail_view(self, pk: str) -> str:
         """
@@ -41,4 +41,4 @@ class UrlMixin:
         Returns:
             specified URL.
         """
-        return f'{SarvFrontend}?utype={self._client.utype}&module={self._module_name}&action=DetailView&record={pk}'
+        return f'{SarvFrontend}?utype={self._client._utype}&module={self._module_name}&action=DetailView&record={pk}'
