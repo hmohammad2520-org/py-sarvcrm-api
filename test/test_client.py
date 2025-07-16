@@ -24,11 +24,16 @@ def test_query_by_number():
     with client:
         assert client.search_by_number('02145885'), 'Excepted data from server'
 
+def test_url_generations():
+    assert client.Accounts.get_url_detail_view('ANY_PK_IS_ACCEPTABLE')
+    assert client.Accounts.get_url_edit_view('ANY_PK_IS_ACCEPTABLE')
+    assert client.Accounts.get_url_list_view()
+
 def test_logout():
     with client:
         assert client.logout() is None
         try: client.Accounts.read_list(limit=1)
-        except (HTTPError, SarvException): ...
+        except (HTTPError, SarvException): return
         raise AssertionError('Excepted HTTPError or SarvException on data from server')
 
 def test_caching():
