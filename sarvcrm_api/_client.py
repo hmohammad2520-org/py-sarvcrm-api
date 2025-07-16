@@ -52,6 +52,7 @@ class SarvClient(ModulesMixin):
 
         super().__init__()
 
+
     def _add_headers(self) -> None:
         """
         Adds required sarvcrm headers to session.
@@ -96,6 +97,26 @@ class SarvClient(ModulesMixin):
             get_parms.update(**addition)
 
         return get_parms
+
+    def enable_caching(self) -> None:
+        """
+        Enables the caching and replaces `Session` with `CachedSession` or creates it.
+        """
+        self._session = requests_cache.CachedSession(
+            cache_name='sarv_api_cache',
+            backend=self._cache_backend,
+            allowable_methods=('GET', 'POST'),
+            allowable_codes=(200,),
+        )
+        self._add_headers()
+
+    def disable_caching(self) -> None:
+        """
+        Disables the caching and replaces `CachedSession` with `Session` or creates it.
+        """
+        self._session = requests.Session()
+        self._add_headers()
+
 
     def _send_request(
             self, 
@@ -174,26 +195,6 @@ class SarvClient(ModulesMixin):
 
         response.raise_for_status()
         return response_dict.get('data', {})
-
-
-    def enable_caching(self) -> None:
-        """
-        Enables the caching and replaces `Session` with `CachedSession` or creates it.
-        """
-        self._session = requests_cache.CachedSession(
-            cache_name='sarv_api_cache',
-            backend=self._cache_backend,
-            allowable_methods=('GET', 'POST'),
-            allowable_codes=(200,),
-        )
-        self._add_headers()
-
-    def disable_caching(self) -> None:
-        """
-        Disables the caching and replaces `CachedSession` with `Session` or creates it.
-        """
-        self._session = requests.Session()
-        self._add_headers()
 
 
     def login(self) -> str:
