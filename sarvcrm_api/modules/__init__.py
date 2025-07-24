@@ -1,3 +1,4 @@
+from ._base import SarvModule
 from .accounts import Accounts
 from .acl_roles import ACLRoles
 from .aos_contracts import AosContracts
@@ -43,6 +44,7 @@ from .vendors import Vendors
 
 
 __all__ = [
+    'SarvModule',
     'Accounts',
     'ACLRoles',
     'AosContracts',
