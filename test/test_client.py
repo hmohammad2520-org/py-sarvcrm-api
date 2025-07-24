@@ -5,7 +5,6 @@ from sarvcrm_api import SarvClient, SarvException, SarvURL
 dotenv.load_dotenv()
 
 client = SarvClient(
-    SarvURL,
     os.environ.get('SARVCRM_UTYPE', ''),
     os.environ.get('SARVCRM_USERNAME', ''),
     os.environ.get('SARVCRM_PASSWORD', ''),
