@@ -5,6 +5,7 @@ SarvFrontend: LiteralString = 'https://app.sarvcrm.com/index.php'
 
 SarvURL = SarvAPI_v5
 
+
 __all__ = [
     'SarvAPI_v5',
     'SarvFrontend',

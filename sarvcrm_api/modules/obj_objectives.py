@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class ObjObjectives(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class ObjObjectives(SarvModule, UrlMixin):
     _module_name = 'OBJ_Objectives'
     _label_en = 'Objectives'
     _label_pr = 'اهداف'

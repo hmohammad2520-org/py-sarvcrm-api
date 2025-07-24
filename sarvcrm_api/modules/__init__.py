@@ -1,4 +1,5 @@
 from .accounts import Accounts
+from .acl_roles import ACLRoles
 from .aos_contracts import AosContracts
 from .aos_invoices import AosInvoices
 from .aos_pdf_templates import AosPdfTemplates
@@ -37,10 +38,13 @@ from .sc_contract_management import ScContractManagement
 from .service_centers import ServiceCenters
 from .tasks import Tasks
 from .timesheet import Timesheet
+from .users import Users
 from .vendors import Vendors
+
 
 __all__ = [
     'Accounts',
+    'ACLRoles',
     'AosContracts',
     'AosInvoices',
     'AosPdfTemplates',
@@ -79,5 +83,6 @@ __all__ = [
     'ServiceCenters',
     'Tasks',
     'Timesheet',
+    'Users',
     'Vendors',
 ]

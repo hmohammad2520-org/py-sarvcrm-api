@@ -1,7 +1,7 @@
 from ._base import SarvModule
-from ._mixins import UrlMixins
+from ._mixins import UrlMixin
 
-class PurchaseOrder(SarvModule, UrlMixins.DetailView, UrlMixins.ListView, UrlMixins.EditView):
+class PurchaseOrder(SarvModule, UrlMixin):
     _module_name = 'Purchase_Order'
     _label_en = 'Purchase Order'
     _label_pr = 'سفارش خرید'

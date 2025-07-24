@@ -1,3 +1,7 @@
-classmods
 requests
+requests_cache
+classmods
+python-dotenv
+
 setuptools
+pytest

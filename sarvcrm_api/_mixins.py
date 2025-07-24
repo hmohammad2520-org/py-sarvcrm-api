@@ -1,9 +1,10 @@
 from .modules import *
 
 class ModulesMixin:
+    """This is abstract module for adding sarv modules to sarvclient class"""
     def __init__(self) -> None:
-        """This is abstract module for adding sarv modules to sarvclient class"""
         self.Accounts = Accounts(self)
+        self.ACLRoles = ACLRoles(self)
         self.AosContracts = AosContracts(self)
         self.AosInvoices = AosInvoices(self)
         self.AosPdfTemplates = AosPdfTemplates(self)
@@ -42,4 +43,5 @@ class ModulesMixin:
         self.ServiceCenters = ServiceCenters(self)
         self.Tasks = Tasks(self)
         self.Timesheet = Timesheet(self)
+        self.Users = Users(self)
         self.Vendors = Vendors(self)

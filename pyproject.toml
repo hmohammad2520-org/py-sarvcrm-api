@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-sarvcrm-api"
-version = "1.0.1"
+version = "1.1.3"
 description = "Simple sarvcrm api module"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Radin-System", email = "technical@rsto.ir" }
+    { name = "hmohammad", email = "hmohammad2520@gmail.com" }
 ]
 keywords = ["python", "library", "sarvcrm", "hamkaransystem", "api"]
 classifiers = [
@@ -18,10 +18,11 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "requests",
+    "requests==2.32.4",
+    "requests_cache==1.2.1",
 ]
 requires-python = ">=3.9"
 
 [project.urls]
-Homepage = "https://github.com/Radin-System/py-sarvcrm-api"
-BugTracker = "https://github.com/Radin-System/py-sarvcrm-api/issues"
+Homepage = "https://github.com/hmohammad2520-org/py-sarvcrm-api"
+BugTracker = "https://github.com/hmohammad2520-org/py-sarvcrm-api/issues"
