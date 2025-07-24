@@ -1,6 +1,7 @@
 requests
 requests_cache
-setuptools
-
+classmods
 python-dotenv
+
+setuptools
 pytest
