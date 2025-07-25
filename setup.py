@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='py-sarvcrm-api',
-    version='1.1.3',
+    version='1.2.3',
     license="MIT",
     description='simple sarvcrm api module',
     author='hmohammad',
@@ -13,7 +13,7 @@ setup(
         'requests-cache==1.2.1',
         'classmods==0.3.2'
     ],
-    packages=find_packages(),
+    packages=find_packages(exclude=['test', 'test.*']),
     include_package_data=True,
     zip_safe=False,
 )

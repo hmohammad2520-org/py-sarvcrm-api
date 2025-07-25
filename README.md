@@ -12,7 +12,7 @@ The **SarvClient** module provides a Python interface for interacting with the S
 - **Context Manager Support**: Automatically handle login and logout within `with` statements.
 - **Localization**: Supports specifying the desired language for API interactions.
 - **Utility Methods**: Format dates, times, and other helper functionalities compliant with SarvCRM standards.
-
+- **ENVMod Support**: You can use the SarvClient with the ENVMod module for more rubost and flexible env management.
 ---
 
 ## Installation
@@ -73,6 +73,21 @@ with client:
     print(f'Deleted item: {deleted_item}')
 
 ```
+
+### Initiate client with `ENVMod`
+You can load the client with environment variables using `ENVMod` class. This is useful for development
+and testing purposes.
+
+```python
+from classmods import ENVMod
+from sarvcrm_api import SarvClient
+
+sarv_client = SarvClient(**ENVMod.load_args(SarvClient.__init__))
+```
+
+If you have environment variables set up, you can use them directly in your code. For example, read
+example file [env example](.env_example)
+
 ## Additional Features
 
 - **Error Handling**: This module raises `requests.HTTPError` and `SarvException` for API errors.

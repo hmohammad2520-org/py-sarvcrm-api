@@ -1,7 +1,7 @@
-requests
-requests_cache
+requests==2.32.4
+requests_cache==1.2.1
 classmods==0.3.2
-python-dotenv
 
+python-dotenv
 setuptools
 pytest
