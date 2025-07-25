@@ -1,7 +1,8 @@
 import json, hashlib, requests, requests_cache
 import urllib.parse
-from typing import Any, Dict, List, Literal, Optional, Self
+from classmods import ENVMod
 from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Literal, Optional, Self
 from .modules import SarvModule
 from ._exceptions import SarvException
 from ._mixins import ModulesMixin
@@ -14,6 +15,7 @@ class SarvClient(ModulesMixin):
     SarvClient provides methods for interacting with the SarvCRM API. 
     It supports authentication, data retrieval, and other API functionalities.
     """
+    @ENVMod.register()
     def __init__(
             self,
             utype: str,
@@ -39,6 +41,8 @@ class SarvClient(ModulesMixin):
             frontend_url (Optional[str]): The base URL for the SarvCRM frontend if you use local instance.
             login_type (Optional[str]): The login type for authentication.
             language (SarvLanguageType): The language to use, default is 'en_US'.
+            caching (bool): Cache the responses from server.
+            cache_backend(Literal['memory', 'sqlite']): Saving backend for cached responses.
         """
         self._utype = utype
         self._username = username

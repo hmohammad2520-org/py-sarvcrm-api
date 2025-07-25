@@ -11,6 +11,7 @@ setup(
     install_requires=[
         'requests==2.32.4',
         'requests-cache==1.2.1',
+        'classmods==0.3.2'
     ],
     packages=find_packages(),
     include_package_data=True,
