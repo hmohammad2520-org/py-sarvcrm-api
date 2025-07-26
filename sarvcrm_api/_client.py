@@ -2,10 +2,11 @@ import json, hashlib, requests, requests_cache
 import urllib.parse
 from typing import Any, Dict, List, Literal, Optional, Self
 from datetime import datetime, timedelta, timezone
+from .modules import SarvModule
 from ._exceptions import SarvException
 from ._mixins import ModulesMixin
 from ._type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
-from .modules._base import SarvModule
+from ._url import SarvURL, SarvFrontend
 
 
 class SarvClient(ModulesMixin):
@@ -15,13 +16,14 @@ class SarvClient(ModulesMixin):
     """
     def __init__(
             self,
-            url: str,
             utype: str,
             username: str,
             password: str,
+            is_password_md5: bool = False,
+            url: Optional[str] = None,
+            frontend_url: Optional[str] = None,
             login_type: Optional[str] = None,
             language: SarvLanguageType = 'en_US',
-            is_password_md5: bool = False,
             caching: bool = False,
             cache_backend: Literal['memory', 'sqlite'] = 'memory',
         ) -> None:
@@ -29,18 +31,20 @@ class SarvClient(ModulesMixin):
         Initialize the SarvClient.
 
         Args:
-            url (str): The base URL for the SarvCRM API.
             utype (str): The user type for authentication.
             username (str): The username for authentication.
             password (str): The password for authentication.
+            is_password_md5 (bool): Whether the password is already hashed using MD5.
+            url (Optional[str]): The base URL for the SarvCRM API if you use local instance.
+            frontend_url (Optional[str]): The base URL for the SarvCRM frontend if you use local instance.
             login_type (Optional[str]): The login type for authentication.
             language (SarvLanguageType): The language to use, default is 'en_US'.
-            is_password_md5 (bool): Whether the password is already hashed using MD5.
         """
-        self._url = url
         self._utype = utype
         self._username = username
         self._password = password if is_password_md5 else self.hash_password(password)
+        self._url = url or SarvURL
+        self._frontend_url = frontend_url or SarvFrontend
         self._login_type = login_type
         self._language = language
         self._caching = caching

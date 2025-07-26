@@ -30,22 +30,21 @@ The **SarvClient** module provides a Python interface for interacting with the S
 ### Example Usage
 
 ```python
-from sarvcrm_api import SarvClient, SarvURL
-
-# SarvURL = 'https://app.sarvcrm.com/API.php'
+from sarvcrm_api import SarvClient
 
 # Initialize the client
 client = SarvClient(
-    url=SarvURL, # specify your own url if you have local server
     utype="your_utype",
     username="your_username",
     password="your_password",
     language="en_US",
     is_password_md5=True, # if your password is already md5
+    #url=https://example.com/API.php  # if you use local server
+    #frontend_url=https://example.com/  # if you use local server
 )
 
+
 # Use as a context manager for clean execution
-print(f'Connecting to {SarvURL}')
 with client:
     # Create new item in Accounts
     uid = client.Accounts.create(type='Corporate', name='RadinSystem', numbers=['02145885000'])
