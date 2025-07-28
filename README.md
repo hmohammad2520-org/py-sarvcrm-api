@@ -54,8 +54,12 @@ with client:
     record = clinet.Accounts.read_record(uid)
     print(f'Single Account record: {record}')
 
+    # Use query and selected_fields to read item
+    opportunity = client.Opportunities.read_list(query="opportunities.id='UID'", selected_fields=['fullname'])
+    print(f'Opportunity: {opportunity}')
+
     # Read List of items
-    records = client.Accounts.read_list(order_by='name')
+    records = client.Accounts.read_list(order_by='accounts.name')
     print('Accounts list:')
     for account in Accounts:
         print(f' - {account}')

@@ -98,7 +98,6 @@ class SarvClient(ModulesMixin):
             'method': sarv_get_method,
             'module': module_name,
         }
-        get_parms = {k: v for k, v in get_parms.items() if v is not None}
 
         if addition:
             get_parms.update(**addition)
@@ -201,7 +200,7 @@ class SarvClient(ModulesMixin):
                 )
             else:
                 raise SarvException(
-                    'Unkhown Error From Server while parsing json'
+                    'Unkhown error from Server while parsing json'
                 )
 
         response.raise_for_status()
