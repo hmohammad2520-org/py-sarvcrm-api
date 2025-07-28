@@ -1,6 +1,6 @@
 requests==2.32.4
 requests_cache==1.2.1
-classmods==0.3.3
+classmods==1.0.0
 
 python-dotenv
 setuptools
