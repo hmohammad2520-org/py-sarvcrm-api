@@ -1,7 +1,7 @@
-import json, hashlib, requests, requests_cache
-import urllib.parse
-from typing import Any, Dict, List, Literal, Optional, Self
+import json, hashlib, requests, requests_cache, urllib.parse
+from classmods import ENVMod
 from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Literal, Optional, Self
 from .modules import SarvModule
 from ._exceptions import SarvException
 from ._mixins import ModulesMixin
@@ -14,6 +14,7 @@ class SarvClient(ModulesMixin):
     SarvClient provides methods for interacting with the SarvCRM API. 
     It supports authentication, data retrieval, and other API functionalities.
     """
+    @ENVMod.register()
     def __init__(
             self,
             utype: str,
@@ -39,6 +40,8 @@ class SarvClient(ModulesMixin):
             frontend_url (Optional[str]): The base URL for the SarvCRM frontend if you use local instance.
             login_type (Optional[str]): The login type for authentication.
             language (SarvLanguageType): The language to use, default is 'en_US'.
+            caching (bool): Cache the responses from server.
+            cache_backend(Literal['memory', 'sqlite']): Saving backend for cached responses.
         """
         self._utype = utype
         self._username = username
@@ -95,7 +98,6 @@ class SarvClient(ModulesMixin):
             'method': sarv_get_method,
             'module': module_name,
         }
-        get_parms = {k: v for k, v in get_parms.items() if v is not None}
 
         if addition:
             get_parms.update(**addition)
@@ -151,6 +153,10 @@ class SarvClient(ModulesMixin):
         get_params = get_params or {}
         post_params = post_params or {}
 
+        head_params = {k: v for k, v in head_params.items() if v is not None} 
+        get_params = {k: v for k, v in get_params.items() if v is not None}
+        post_params = {k: v for k, v in post_params.items() if v is not None}
+
         if self._token:
             head_params['Authorization'] = f'Bearer {self._token}'
 
@@ -183,8 +189,8 @@ class SarvClient(ModulesMixin):
             # Deserialize sarvcrm servers response
             response_dict: dict = response.json()
 
-        # Raise this on quirky responses from Sarvcrm servers
-        # Sometimes the servers send other content types instead of json
+        # This is for quirky responses from Sarvcrm servers
+        # Sometimes servers send other content types instead of json
         except json.decoder.JSONDecodeError:
             if 'MySQL Error' in response.text:
                 raise SarvException(
@@ -194,7 +200,7 @@ class SarvClient(ModulesMixin):
                 )
             else:
                 raise SarvException(
-                    'Unkhown Error From Server while parsing json'
+                    'Unkhown error from Server while parsing json'
                 )
 
         response.raise_for_status()
@@ -215,7 +221,6 @@ class SarvClient(ModulesMixin):
             'login_type': self._login_type,
             'language': self._language,
         }
-        post_params = {k: v for k, v in post_params.items() if v is not None}
 
         data: Dict[str, Any] = self._send_request(
             request_method='POST',
@@ -225,11 +230,11 @@ class SarvClient(ModulesMixin):
 
         token = data.get('token', '')
 
-        if token is not None:
-            self._token = token
-            return self._token
-        else:
+        if token is None:
             raise SarvException('client did not get token from login request')
+
+        self._token = token
+        return self._token
 
     def logout(self) -> None:
         """
