@@ -1,5 +1,4 @@
-import json, hashlib, requests, requests_cache
-import urllib.parse
+import json, hashlib, requests, requests_cache, urllib.parse
 from classmods import ENVMod
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Literal, Optional, Self
@@ -155,6 +154,10 @@ class SarvClient(ModulesMixin):
         get_params = get_params or {}
         post_params = post_params or {}
 
+        head_params = {k: v for k, v in head_params.items() if v is not None} 
+        get_params = {k: v for k, v in get_params.items() if v is not None}
+        post_params = {k: v for k, v in post_params.items() if v is not None}
+
         if self._token:
             head_params['Authorization'] = f'Bearer {self._token}'
 
@@ -187,8 +190,8 @@ class SarvClient(ModulesMixin):
             # Deserialize sarvcrm servers response
             response_dict: dict = response.json()
 
-        # Raise this on quirky responses from Sarvcrm servers
-        # Sometimes the servers send other content types instead of json
+        # This is for quirky responses from Sarvcrm servers
+        # Sometimes servers send other content types instead of json
         except json.decoder.JSONDecodeError:
             if 'MySQL Error' in response.text:
                 raise SarvException(
@@ -219,7 +222,6 @@ class SarvClient(ModulesMixin):
             'login_type': self._login_type,
             'language': self._language,
         }
-        post_params = {k: v for k, v in post_params.items() if v is not None}
 
         data: Dict[str, Any] = self._send_request(
             request_method='POST',
@@ -229,11 +231,11 @@ class SarvClient(ModulesMixin):
 
         token = data.get('token', '')
 
-        if token is not None:
-            self._token = token
-            return self._token
-        else:
+        if token is None:
             raise SarvException('client did not get token from login request')
+
+        self._token = token
+        return self._token
 
     def logout(self) -> None:
         """

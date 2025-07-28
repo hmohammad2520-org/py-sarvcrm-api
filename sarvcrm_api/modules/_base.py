@@ -89,8 +89,6 @@ class SarvModule:
             'offset': offset
         }
 
-        post_params = {k: v for k, v in post_params.items() if v is not None}
-
         return self._client._send_request(
             request_method='POST',
             get_params=self._create_get_params('Retrieve'),
@@ -235,7 +233,6 @@ class SarvModule:
             'limit': limit,
             'offset': offset
         }
-        post_params = {k: v for k, v in post_params.items() if v is not None}
 
         return self._client._send_request(
             request_method='POST',
