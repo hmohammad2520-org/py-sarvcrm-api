@@ -62,7 +62,7 @@ class SarvModule:
             self,
             query: Optional[str] = None,
             order_by: Optional[str] = None,
-            select_fields: Optional[list[str]] = None,
+            selected_fields: Optional[list[str]] = None,
             limit: int = BASE_LIMIT,
             offset: int = BASE_OFFSET,
             caching: bool = False,
@@ -74,7 +74,7 @@ class SarvModule:
         Args:
             query (str, optional): A query to filter the results.
             order_by (str, optional): A field to order the results by.
-            select_fields (list[str], optional): A list of fields to include in the response.
+            selected_fields (list[str], optional): A list of fields to include in the response.
             limit (int): The maximum number of items to retrieve.
             offset (int): The number of items to skip before starting to return results.
 
@@ -84,9 +84,9 @@ class SarvModule:
         post_params = {
             'query': query,
             'order_by': order_by,
-            'select_fields': select_fields,
+            'selected_fields': selected_fields,
             'limit': limit,
-            'offset': offset
+            'offset': offset,
         }
 
         return self._client._send_request(
@@ -125,7 +125,7 @@ class SarvModule:
             new = self.read_list(
                 query=query, 
                 order_by=order_by, 
-                select_fields=select_fields,
+                selected_fields=select_fields,
                 limit=item_buffer,
                 offset=offset,
                 caching=caching,
