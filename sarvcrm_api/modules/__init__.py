@@ -8,21 +8,21 @@ from .aos_product_categories import AosProductCategories
 from .aos_products import AosProducts
 from .aos_quotes import AosQuotes
 from .appointments import Appointments
-from .approval import Approval
-from .asol_project import AsolProject
+from .approval import Approvals
+from .asol_project import AsolProjects
 from .branches import Branches
 from .bugs import Bugs
 from .calls import Calls
 from .cases import Cases
 from .communications import Communications
-from .communications_target import CommunicationsTarget       
-from .communications_template import CommunicationsTemplate   
+from .communications_targets import CommunicationsTargets       
+from .communications_templates import CommunicationsTemplates   
 from .campaigns import Campaigns
 from .contacts import Contacts
 from .deposits import Deposits
 from .documents import Documents
 from .emails import Emails
-from .knowledge_base import KnowledgeBase
+from .knowledge_base import KnowledgeBases
 from .knowledge_base_categories import KnowledgeBaseCategories
 from .leads import Leads
 from .meetings import Meetings
@@ -32,10 +32,10 @@ from .obj_indicators import ObjIndicators
 from .obj_objectives import ObjObjectives
 from .opportunities import Opportunities
 from .payments import Payments
-from .purchase_order import PurchaseOrder
-from .sc_competitor import ScCompetitor
-from .sc_contract import ScContract
-from .sc_contract_management import ScContractManagement
+from .purchase_orders import PurchaseOrders
+from .sc_competitors import ScCompetitors
+from .support_contracts import SupportContracts
+from .services import Services
 from .service_centers import ServiceCenters
 from .tasks import Tasks
 from .timesheet import Timesheet
@@ -54,21 +54,21 @@ __all__ = [
     'AosProducts',
     'AosQuotes',
     'Appointments',
-    'Approval',
-    'AsolProject',
+    'Approvals',
+    'AsolProjects',
     'Branches',
     'Bugs',
     'Calls',
     'Cases',
     'Communications',
-    'CommunicationsTarget',
-    'CommunicationsTemplate',
+    'CommunicationsTargets',
+    'CommunicationsTemplates',
     'Campaigns',
     'Contacts',
     'Deposits',
     'Documents',
     'Emails',
-    'KnowledgeBase',
+    'KnowledgeBases',
     'KnowledgeBaseCategories',
     'Leads',
     'Meetings',
@@ -78,10 +78,10 @@ __all__ = [
     'ObjObjectives',
     'Opportunities',
     'Payments',
-    'PurchaseOrder',
-    'ScCompetitor',
-    'ScContract',
-    'ScContractManagement',
+    'PurchaseOrders',
+    'ScCompetitors',
+    'SupportContracts',
+    'Services',
     'ServiceCenters',
     'Tasks',
     'Timesheet',

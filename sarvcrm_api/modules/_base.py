@@ -1,4 +1,5 @@
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional, Type
+from ..models._base import BaseModel
 from sarvcrm_api._type_hints import SarvGetMethods
 
 BASE_LIMIT = 300
@@ -13,11 +14,14 @@ class SarvModule:
         _module_name (str): The name of the module.
         _label_en (str): The label of the module in English.
         _label_pr (str): The label of the module in Persian.
+        _item_class(BaseModal): The class of the item in the module.
         _client (SarvClient): The client instance used to send requests to the Sarv CRM API.
     """
     _module_name: str = ''
-    _label_en: str = 'BASE_CLASS'
-    _label_pr: str = 'کلاس اصلی'
+    _tabel_name:str = ''
+    _label_en: str = ''
+    _label_pr: str = ''
+    _item_class: Type[BaseModel]
 
     def __init__(self, _client):
         """
@@ -27,7 +31,19 @@ class SarvModule:
             _client (SarvClient): The client used for making API requests to Sarv CRM.
         """
         from sarvcrm_api import SarvClient
+        if not all(
+                (
+                    self._module_name,
+#                    self._tabel_name,
+                    self._label_en,
+                    self._label_pr,
+                    self._item_class,
+                )
+            ):
+            raise NotImplementedError(f'One of base attributes is not set for {self.__class__}')
+
         self._client: SarvClient = _client
+        #self._item_class._init_fields(self)
 
     def _create_get_params(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
         """
@@ -67,7 +83,7 @@ class SarvModule:
             offset: int = BASE_OFFSET,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> list[dict]:
+        ) -> List[Dict]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
 
@@ -105,7 +121,7 @@ class SarvModule:
             item_buffer: int = BASE_LIMIT,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> list[dict]:
+        ) -> List[Dict[str, Any]]:
         """
         Retrieves all of items from the module, optionally filtered by the specified parameters.
 
@@ -136,7 +152,7 @@ class SarvModule:
 
         return all_list
 
-    def read_record(self, pk: str) -> dict[str, Any]:
+    def read_record(self, pk: str) -> Dict[str, Any]:
         """
         Retrieves a single item from the module using its unique identifier (ID).
 
@@ -187,7 +203,7 @@ class SarvModule:
             self,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> dict[str, dict]:
+        ) -> Dict[str, Dict[str, Any]]:
         """
         Retrieves the list of all fields for the module.
 
@@ -211,7 +227,7 @@ class SarvModule:
             offset: int = BASE_LIMIT,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> list:
+        ) -> List:
         """
         Retrieves a list of related items for a specific field in the module.
 
@@ -247,7 +263,7 @@ class SarvModule:
             pk: str,
             field_name: str,
             related_records: list,
-        ) -> list:
+        ) -> List:
         """
         Saves a relationship between the current item and related records.
 

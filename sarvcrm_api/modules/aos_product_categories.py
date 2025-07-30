@@ -1,7 +1,9 @@
 from ._base import SarvModule
 from ._mixins import UrlMixin
+from ..models import AosProductCategory
 
 class AosProductCategories(SarvModule, UrlMixin):
     _module_name = 'AOS_Product_Categories'
     _label_en = 'Product Categories'
     _label_pr = 'دسته های محصول'
+    _item_class = AosProductCategory
