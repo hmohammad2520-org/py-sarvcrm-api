@@ -43,7 +43,7 @@ class SarvModule:
             raise NotImplementedError(f'One of base attributes is not set for {self.__class__}')
 
         self._client: SarvClient = _client
-        #self._item_class._init_fields(self)
+        self._item_class._init_module(self)
 
     def _create_get_params(self, sarv_get_method: SarvGetMethods, **addition) -> dict:
         """

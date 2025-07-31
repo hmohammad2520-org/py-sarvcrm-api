@@ -1,5 +1,130 @@
+### This file is generated using Scripts ###
+### Do not modify by any means           ###
+
 from ._base import BaseModel
 
 
 class Account(BaseModel):
-    pass
+    """
+    This class represents single item in Accounts.
+    `CRUD` operations will be get much simpler with this methods.
+    """
+    id_AS: str
+    assigned_user_id: str
+    assigned_user_name: str
+    description: str
+    origin: str
+    type: str
+    detailed_title: str
+    salutation: str
+    first_name: str
+    last_name: str
+    name_alias: str
+    account_id_number: str
+    account_code: str
+    portal_user: str
+    assigned_portal_user_hash: str
+    assigned_portal_user_id: str
+    assigned_portal_user_name: str
+    assigned_portal_user_username: str
+    assigned_portal_user_status: str
+    assigned_portal_user_email: str
+    assigned_portal_user_sms_number: str
+    account_type: str
+    billing_address_id: str
+    billing_address_street: str
+    billing_address_street_2: str
+    billing_address_street_3: str
+    billing_address_street_4: str
+    billing_address_city: str
+    billing_address_state: str
+    billing_address_postalcode: str
+    billing_address_country: str
+    billing_latitude: str
+    billing_longitude: str
+    shipping_address_id: str
+    shipping_address_street: str
+    shipping_address_street_2: str
+    shipping_address_street_3: str
+    shipping_address_street_4: str
+    shipping_address_city: str
+    shipping_address_state: str
+    shipping_address_postalcode: str
+    shipping_address_country: str
+    shipping_latitude: str
+    shipping_longitude: str
+    primary_address: str
+    rating: str
+    website: str
+    linkedin: str
+    instagram: str
+    blog: str
+    facebook: str
+    twitter: str
+    ownership: str
+    email1: str
+    primary_number: str
+    sms_number: str
+    fax_number: str
+    primary_number_country_code: str
+    sms_number_country_code: str
+    fax_number_country_code: str
+    phone1: str
+    multiple_address: str
+    accounts_partners_name: str
+    partner_id: str
+    parent_id: str
+    parent_name: str
+    email_opt_out: str
+    invalid_email: str
+    contact_role_fields: str
+    contact_role_id: str
+    primary_account: str
+    party_id: str
+    industry: str
+    subindustry: str
+    financial_details: str
+    credit_status: str
+    credit_type: str
+    credit_expiration_date: str
+    credit_source: str
+    credit_limit: str
+    credit_source_description: str
+    credit_sales_discount: str
+    service_office_name: str
+    service_office_id: str
+    accounts_service_centers_name: str
+    service_centers_id: str
+    tax_id_number: str
+    registration_number: str
+    national_number: str
+    birth_date: str
+    fida_registration: str
+    billing_geographical_area_id: str
+    billing_geographical_area_name: str
+    shipping_geographical_area_id: str
+    shipping_geographical_area_name: str
+    accounting_credit: str
+    as_sync_date: str
+    kyc_panel: str
+    subscription_panel: str
+    is_foreigner: str
+    attachments: str
+    accounts_broker_users_name: str
+    user_id: str
+    rah_customer_type: str
+    visible_in_portal: str
+    account_whatsapp: str
+    account_telegram: str
+    account_bale: str
+    account_ita: str
+    account_bank_card_number_official: str
+    account_bank_card_number_official_owner: str
+    account_bank_card_number: str
+    account_bank_card_number_owner: str
+    account_sheba_number_official: str
+    account_sheba_number_official_owner: str
+    account_sheba_number: str
+    account_sheba_number_owner: str
+    date_of_establishment: str
+    fullname_en: str

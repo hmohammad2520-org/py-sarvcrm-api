@@ -1,6 +1,6 @@
 from classmods import ENVMod
 from requests import HTTPError
-from sarvcrm_api import SarvClient, SarvException
+from sarvcrm_api import SarvClient, SarvServerError
 
 def test_create_env():
     ENVMod.save_example()
@@ -38,7 +38,7 @@ def test_logout():
     with client:
         assert client.logout() is None
         try: client.Accounts.read_list(limit=1)
-        except (HTTPError, SarvException): return
+        except (HTTPError, SarvServerError): return
         raise AssertionError('Excepted HTTPError or SarvException on data from server')
 
 def test_caching():

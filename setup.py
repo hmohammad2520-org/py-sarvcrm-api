@@ -13,7 +13,7 @@ setup(
         'requests-cache==1.2.1',
         'classmods==1.0.0'
     ],
-    packages=find_packages(exclude=['test', 'test.*']),
+    packages=find_packages(exclude=['test', 'test.*', 'dev', 'dev.*']),
     include_package_data=True,
     zip_safe=False,
 )
