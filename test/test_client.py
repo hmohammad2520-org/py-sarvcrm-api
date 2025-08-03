@@ -13,10 +13,6 @@ def create_client():
     assert client
     return client
 
-def test_create_env():
-    ENVMod.save_example()
-    ENVMod.sync_env_file()
-
 def test_login():
     client = create_client()
     with client:
