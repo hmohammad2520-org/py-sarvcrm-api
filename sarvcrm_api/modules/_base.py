@@ -1,4 +1,5 @@
 from typing import Any, Dict, List, Optional, Type
+from classmods import logwrap
 from ..models._base import SarvModel
 from sarvcrm_api._type_hints import SarvGetMethods
 
