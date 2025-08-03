@@ -1,6 +1,6 @@
 from typing import Literal, TypeAlias
 
-TimeOutput: TypeAlias = Literal['date', 'datetime', 'time']
+TimeOutputMethods: TypeAlias = Literal['date', 'datetime', 'time']
 RequestMethod: TypeAlias = Literal['GET','POST','PUT','DELETE']
 SarvLanguageType: TypeAlias = Literal['fa_IR','en_US']
 SarvGetMethods: TypeAlias = Literal[
@@ -15,7 +15,7 @@ SarvGetMethods: TypeAlias = Literal[
 
 
 __all__ = [
-    'TimeOutput',
+    'TimeOutputMethods',
     'RequestMethod',
     'SarvLanguageType',
     'SarvGetMethods',

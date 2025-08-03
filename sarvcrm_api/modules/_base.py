@@ -93,6 +93,8 @@ class SarvModule:
             selected_fields (list[str], optional): A list of fields to include in the response.
             limit (int): The maximum number of items to retrieve.
             offset (int): The number of items to skip before starting to return results.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
 
         Returns:
             list: A list of items from the module.
@@ -130,6 +132,8 @@ class SarvModule:
             order_by (str, optional): A field to order the results by.
             select_fields (list[str], optional): A list of fields to include in the response.
             item_buffer (int): Number of items to query each iteration from sarv server.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
 
         Returns:
             list: A list of all items from the module.
@@ -152,12 +156,19 @@ class SarvModule:
 
         return all_list
 
-    def read_record(self, pk: str) -> Dict[str, Any]:
+    def read_record(
+            self, 
+            pk: str,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> Dict[str, Any]:
         """
         Retrieves a single item from the module using its unique identifier (ID).
 
         Args:
             pk (str): The unique identifier (ID) of the item to retrieve.
+            caching (bool, optional): Whether to cache the result. Defaults to False.
+            expire_after (int, optional): The time in seconds that the cache will expire. Defaults to
 
         Returns:
             dict: The data of the retrieved item.
@@ -165,6 +176,8 @@ class SarvModule:
         return self._client._send_request(
             request_method='GET',
             get_params=self._create_get_params('Retrieve', id=pk),
+            caching=caching,
+            expire_after=expire_after,
         )[0]
 
     def update(self, pk: str, **fields_data) -> str:
@@ -207,6 +220,10 @@ class SarvModule:
         """
         Retrieves the list of all fields for the module.
 
+        Args:
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
+
         Returns:
             dict: A dictionary containing all the fields of the module.
         """
@@ -238,6 +255,8 @@ class SarvModule:
             select_fields (list[str], optional): A list of fields to include in the response.
             limit (int): The maximum number of items to retrieve.
             offset (int): The number of items to skip before starting to return results.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
 
         Returns:
             list: A list of related items.
