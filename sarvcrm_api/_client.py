@@ -196,7 +196,7 @@ class SarvClient(ModulesMixin):
             post_params=post_params,
         )
 
-        token = data.get('token', '')
+        token = data.get('token')
 
         if token is None:
             raise SarvException('client did not get token from login request')
