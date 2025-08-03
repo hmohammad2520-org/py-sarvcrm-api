@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Literal, Optional, Self
 from .modules import SarvModule
 from ._exceptions import SarvException
 from ._mixins import ModulesMixin
-from ._type_hints import TimeOutput, SarvLanguageType, RequestMethod, SarvGetMethods
+from ._type_hints import TimeOutputMethods, SarvLanguageType, RequestMethod, SarvGetMethods
 from ._url import SarvURL, SarvFrontend
 
 
@@ -142,6 +142,8 @@ class SarvClient(ModulesMixin):
             head_parms (dict): The headers for the request.
             get_parms (dict): The GET parameters for the request.
             post_params (dict): The POST parameters for the request.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
 
         Returns:
             Any: The data parameter from the server response that can be `List` or `Dict`
@@ -206,7 +208,6 @@ class SarvClient(ModulesMixin):
         response.raise_for_status()
         return response_dict.get('data', {})
 
-
     def login(self) -> str:
         """
         Authenticate the user and retrieve an access token.
@@ -250,13 +251,17 @@ class SarvClient(ModulesMixin):
             self,
             number: str,
             module: Optional[SarvModule | str] = None,
-            ) -> List[Dict[str, Any]]:
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> List[Dict[str, Any]]:
         """
         Search the CRM by phone number and retrieve the module item.
 
         Args:
             number (str): The phone number to search for.
             module (Optional[SarvModule | str]): The module to search in.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
 
         Returns:
             dict: The data related to the phone number if found.
@@ -267,18 +272,23 @@ class SarvClient(ModulesMixin):
                 'SearchByNumber', 
                 sarv_module = module, 
                 number = number,
+                caching = caching,
+                expire_after = expire_after,
             ),
         )
 
     @staticmethod
-    def iso_time_output(output_method: TimeOutput, dt: datetime | timedelta) -> str:
+    def iso_time_output(
+            output_method: TimeOutputMethods,
+            dt: datetime | timedelta,
+        ) -> str:
         """
         Generate a formatted string from a datetime or timedelta object.
 
         These formats are compliant with the SarvCRM API time standards.
 
         Args:
-            output_method (TimeOutput): Determines the output format ('date', 'datetime', or 'time').
+            output_method (TimeOutputMethods): Determines the output format ('date', 'datetime', or 'time').
             dt (datetime | timedelta): A datetime or timedelta object.
 
         Returns:
