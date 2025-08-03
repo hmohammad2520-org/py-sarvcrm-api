@@ -1,5 +1,5 @@
 import json, hashlib, requests, requests_cache, urllib.parse
-from classmods import ENVMod
+from classmods import ENVMod, logwrap
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Literal, Optional, Self
 from .modules import SarvModule
@@ -15,6 +15,7 @@ class SarvClient(ModulesMixin):
     It supports authentication, data retrieval, and other API functionalities.
     """
     @ENVMod.register()
+    @logwrap(before=('DEBUG','Initiating SarvClient'), after='Initiating compleated')
     def __init__(
             self,
             utype: str,
@@ -59,7 +60,7 @@ class SarvClient(ModulesMixin):
 
         super().__init__()
 
-
+    @logwrap(before=False, after=('DEBUG','Added Headers to Session'))
     def _add_headers(self) -> None:
         """
         Adds required sarvcrm headers to session.
@@ -67,43 +68,7 @@ class SarvClient(ModulesMixin):
         self._session.headers.update({'Content-Type': 'application/json'})
         self._session.headers.update({'Accept': 'application/json'})
 
-    def _create_get_params(
-            self, 
-            sarv_get_method: Optional[SarvGetMethods] = None,
-            sarv_module: Optional[SarvModule | str] = None,
-            **addition
-        ) -> Dict[str, Any]:
-        """
-        Create the GET parameters with the method and module.
-
-        Args:
-            sarv_get_method (SarvGetMethods): The API method to call.
-            sarv_module (Optional[SarvModule | str]): The module name or object.
-            addition: Additional parameters to include in the GET request.
-
-        Returns:
-            dict: The constructed GET parameters.
-        """
-        module_name = None
-
-        if sarv_module is not None:
-            if isinstance(sarv_module, SarvModule):
-                module_name = sarv_module._module_name
-            elif isinstance(sarv_module, str):
-                module_name = sarv_module
-            else:
-                raise TypeError(f'Module type must be instance of SarvModule or str not {sarv_module.__class__.__name__}')
-
-        get_parms = {
-            'method': sarv_get_method,
-            'module': module_name,
-        }
-
-        if addition:
-            get_parms.update(**addition)
-
-        return get_parms
-
+    @logwrap(before=False, after=('INFO', 'Enabled caching'))
     def enable_caching(self) -> None:
         """
         Enables the caching and replaces `Session` with `CachedSession` or creates it.
@@ -116,6 +81,7 @@ class SarvClient(ModulesMixin):
         )
         self._add_headers()
 
+    @logwrap(before=False, after=('INFO', 'Disabled caching'))
     def disable_caching(self) -> None:
         """
         Disables the caching and replaces `CachedSession` with `Session` or creates it.
@@ -123,7 +89,7 @@ class SarvClient(ModulesMixin):
         self._session = requests.Session()
         self._add_headers()
 
-
+    @logwrap(before='Sending HTTP request: args:{args} - kwargs:{kwargs}', after=False)
     def _send_request(
             self, 
             request_method: RequestMethod,
@@ -208,6 +174,7 @@ class SarvClient(ModulesMixin):
         response.raise_for_status()
         return response_dict.get('data', {})
 
+    @logwrap(before=('INFO', 'Logging to Sarvcrm'), after=False)
     def login(self) -> str:
         """
         Authenticate the user and retrieve an access token.
@@ -229,7 +196,7 @@ class SarvClient(ModulesMixin):
             post_params=post_params,
         )
 
-        token = data.get('token', '')
+        token = data.get('token')
 
         if token is None:
             raise SarvServerError('client did not get token from login request')
@@ -237,6 +204,7 @@ class SarvClient(ModulesMixin):
         self._token = token
         return self._token
 
+    @logwrap(before=('INFO', 'Logging out from Sarvcrm'), after=False)
     def logout(self) -> None:
         """
         Clears the access token from the instance.
@@ -246,7 +214,7 @@ class SarvClient(ModulesMixin):
         if self._token:
             self._token = ''
 
-
+    @logwrap(before='Searching by number: args:{args} - kwargs:{kwargs}', after=False)
     def search_by_number(
             self,
             number: str,
@@ -276,6 +244,43 @@ class SarvClient(ModulesMixin):
                 expire_after = expire_after,
             ),
         )
+
+    @staticmethod
+    def _create_get_params(
+            sarv_get_method: Optional[SarvGetMethods] = None,
+            sarv_module: Optional[SarvModule | str] = None,
+            **addition
+        ) -> Dict[str, Any]:
+        """
+        Create the GET parameters with the method and module.
+
+        Args:
+            sarv_get_method (SarvGetMethods): The API method to call.
+            sarv_module (Optional[SarvModule | str]): The module name or object.
+            addition: Additional parameters to include in the GET request.
+
+        Returns:
+            dict: The constructed GET parameters.
+        """
+        module_name = None
+
+        if sarv_module is not None:
+            if isinstance(sarv_module, SarvModule):
+                module_name = sarv_module._module_name
+            elif isinstance(sarv_module, str):
+                module_name = sarv_module
+            else:
+                raise TypeError(f'Module type must be instance of SarvModule or str not {sarv_module.__class__.__name__}')
+
+        get_parms = {
+            'method': sarv_get_method,
+            'module': module_name,
+        }
+
+        if addition:
+            get_parms.update(**addition)
+
+        return get_parms
 
     @staticmethod
     def iso_time_output(
@@ -325,7 +330,7 @@ class SarvClient(ModulesMixin):
         """
         return hashlib.md5(password.encode('utf-8')).hexdigest()
 
-
+    @logwrap(before='Starting SarvClient context.', after=('DEBUG', 'SarvClient context started.'))
     def __enter__(self) -> Self:
         """Basic Context Manager for clean code execution"""
         if not self._token:
@@ -333,10 +338,10 @@ class SarvClient(ModulesMixin):
 
         return self
 
+    @logwrap(before='Closing SarvClient context.', after=('DEBUG', 'SarvClient context closed.'))
     def __exit__(self, exc_type, exc_value, traceback):
         """Basic Context Manager for clean code execution"""
         self.logout()
-
 
     def __repr__(self):
         """

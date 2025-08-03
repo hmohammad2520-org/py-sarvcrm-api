@@ -23,6 +23,7 @@ class SarvModule:
     _label_pr: str = ''
     _item_class: Type[SarvModel]
 
+    @logwrap(before='Initiating Sarvmodule: args:{args} - kwargs:{kwargs}', after=False)
     def __init__(self, _client):
         """
         Initializes the SarvModule instance with a given client.
@@ -58,6 +59,7 @@ class SarvModule:
         """
         return self._client._create_get_params(sarv_get_method, self, **addition)
 
+    @logwrap(before='Creating new record: fields:{kwargs}', after=False)
     def create(self, **fields_data) -> str:
         """
         Creates a new item in the module with the provided field values.
@@ -74,6 +76,7 @@ class SarvModule:
             post_params=fields_data,
         ).get('id', {})
 
+    @logwrap(before='Reading records list: args:{args} - kwargs:{kwargs}', after=False)
     def read_list(
             self,
             query: Optional[str] = None,
@@ -115,6 +118,7 @@ class SarvModule:
             expire_after=expire_after,
         )
 
+    @logwrap(before='Reading all records list: args:{args} - kwargs:{kwargs}', after=False)
     def read_list_all(
             self,
             query: Optional[str] = None,
@@ -156,6 +160,7 @@ class SarvModule:
 
         return all_list
 
+    @logwrap(before='Reading record: args:{args} - kwargs:{kwargs}', after=False)
     def read_record(
             self, 
             pk: str,
@@ -180,6 +185,7 @@ class SarvModule:
             expire_after=expire_after,
         )[0]
 
+    @logwrap(before='Updating record: args:{args} - kwargs:{kwargs}', after=False)
     def update(self, pk: str, **fields_data) -> str:
         """
         Updates an existing item in the module with the given field values.
@@ -197,6 +203,7 @@ class SarvModule:
             post_params=fields_data,
         ).get('id')
 
+    @logwrap(before='Deleting record: args:{args} - kwargs:{kwargs}', after=False)
     def delete(self, pk: str) -> str | None:
         """
         Deletes an item from the module using its unique identifier (ID).
@@ -212,6 +219,7 @@ class SarvModule:
             get_params=self._create_get_params('Save', id=pk),
         ).get('id')
 
+    @logwrap(before='Getting module fields: args:{args} - kwargs:{kwargs}', after=False)
     def get_module_fields(
             self,
             caching: bool = False,
@@ -234,6 +242,7 @@ class SarvModule:
             expire_after=expire_after,
         )
 
+    @logwrap(before='Getting relationships: args:{args} - kwargs:{kwargs}', after=False)
     def get_relationships(
             self,
             related_field: str,
@@ -277,6 +286,7 @@ class SarvModule:
             expire_after=expire_after,
         )
 
+    @logwrap(before='Saving relationships: args:{args} - kwargs:{kwargs}', after=False)
     def save_relationships(
             self,
             pk: str,
