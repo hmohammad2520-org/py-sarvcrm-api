@@ -37,7 +37,7 @@ class FieldMeta:
     def _cast(callable: Callable[[str|list|dict], Any]) -> Any:
         ...
 
-class BaseModel:
+class SarvModel:
     id: str
     _fields: Dict[str, FieldMeta] = {}
     _base_fields: List[str] = [

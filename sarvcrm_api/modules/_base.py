@@ -1,5 +1,5 @@
 from typing import Any, Dict, List, Optional, Type
-from ..models._base import BaseModel
+from ..models._base import SarvModel
 from sarvcrm_api._type_hints import SarvGetMethods
 
 BASE_LIMIT = 300
@@ -21,7 +21,7 @@ class SarvModule:
     _tabel_name:str = ''
     _label_en: str = ''
     _label_pr: str = ''
-    _item_class: Type[BaseModel]
+    _item_class: Type[SarvModel]
 
     def __init__(self, _client):
         """

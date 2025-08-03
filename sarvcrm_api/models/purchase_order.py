@@ -1,5 +1,5 @@
-from ._base import BaseModel
+from ._base import SarvModel
 
 
-class PurchaseOrder(BaseModel):
+class PurchaseOrder(SarvModel):
     pass

@@ -1,5 +1,5 @@
-from ._base import BaseModel
+from ._base import SarvModel
 
 
-class AosPdfTemplate(BaseModel):
+class AosPdfTemplate(SarvModel):
     pass

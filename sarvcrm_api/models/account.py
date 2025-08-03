@@ -1,10 +1,10 @@
 ### This file is generated using Scripts ###
 ### Do not modify by any means           ###
 
-from ._base import BaseModel
+from ._base import SarvModel
 
 
-class Account(BaseModel):
+class Account(SarvModel):
     """
     This class represents single item in Accounts.
     `CRUD` operations will be get much simpler with this methods.

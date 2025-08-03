@@ -1,4 +1,4 @@
-from ._base import BaseModel
+from ._base import SarvModel
 from .account import Account
 from .acl_role import ACLRole
 from .aos_contract import AosContract
@@ -45,7 +45,7 @@ from .vendor import Vendor
 
 
 __all__ = [
-    'BaseModel',
+    'SarvModel',
     'Account',
     'ACLRole',
     'AosContract',

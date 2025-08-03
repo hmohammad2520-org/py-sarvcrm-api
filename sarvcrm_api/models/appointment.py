@@ -1,5 +1,5 @@
-from ._base import BaseModel
+from ._base import SarvModel
 
 
-class Appointment(BaseModel):
+class Appointment(SarvModel):
     pass
