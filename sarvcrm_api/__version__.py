@@ -1,8 +1,7 @@
-__version__ = '1.3.0'
-__letter__ = 'v'
+__version__ = '1.3.1'
 
 def get_version():
-    return f"{__letter__}'{__version__}'"
+    return __version__
 
 __all__ = [
     'get_version',
