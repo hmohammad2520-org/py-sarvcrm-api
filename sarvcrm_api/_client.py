@@ -14,8 +14,8 @@ class SarvClient(ModulesMixin):
     SarvClient provides methods for interacting with the SarvCRM API. 
     It supports authentication, data retrieval, and other API functionalities.
     """
-    @logwrap(before=('DEBUG','Initiating SarvClient'), after='Initiating compleated')
     @ENVMod.register()
+    @logwrap(before=('DEBUG','Initiating SarvClient'), after='Initiating compleated')
     def __init__(
             self,
             utype: str,
