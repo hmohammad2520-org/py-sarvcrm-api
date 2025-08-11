@@ -55,7 +55,7 @@ with client:
     print(f'Single Account record: {record}')
 
     # Use query and selected_fields to read item
-    opportunity = client.Opportunities.read_list(query="opportunities.id='UID'", selected_fields=['fullname'])
+    opportunity = client.Opportunities.read_list(query="opportunities.id='<UID>'", selected_fields=['fullname'])
     print(f'Opportunity: {opportunity}')
 
     # Read List of items
