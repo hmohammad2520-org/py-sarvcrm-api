@@ -2,7 +2,9 @@ from classmods import ENVMod
 from requests import HTTPError
 from sarvcrm_api import SarvClient, SarvServerError
 
+
 client = None
+
 
 def create_client():
     global client

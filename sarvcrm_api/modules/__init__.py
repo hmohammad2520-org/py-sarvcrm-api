@@ -1,22 +1,22 @@
 from ._base import SarvModule
 from .accounts import Accounts
 from .acl_roles import ACLRoles
-from .aos_contracts import AosContracts
-from .aos_invoices import AosInvoices
-from .aos_pdf_templates import AosPdfTemplates
-from .aos_product_categories import AosProductCategories      
-from .aos_products import AosProducts
-from .aos_quotes import AosQuotes
+from .aos_contracts import SalesContracts
+from .aos_invoices import Invoices
+from .aos_pdf_templates import PDFTemplates
+from .aos_product_categories import ProductCategories      
+from .aos_products import Products
+from .aos_quotes import Quotes
 from .appointments import Appointments
 from .approval import Approvals
-from .asol_project import AsolProjects
+from .asol_project import Projects
 from .branches import Branches
 from .bugs import Bugs
 from .calls import Calls
 from .cases import Cases
 from .communications import Communications
-from .communications_targets import CommunicationsTargets       
-from .communications_templates import CommunicationsTemplates   
+from .communications_target import CommunicationTargets      
+from .communications_template import CommunicationTemplates   
 from .campaigns import Campaigns
 from .contacts import Contacts
 from .deposits import Deposits
@@ -27,18 +27,18 @@ from .knowledge_base_categories import KnowledgeBaseCategories
 from .leads import Leads
 from .meetings import Meetings
 from .notes import Notes
-from .obj_conditions import ObjConditions
-from .obj_indicators import ObjIndicators
-from .obj_objectives import ObjObjectives
+from .obj_conditions import Conditions
+from .obj_indicators import Indicators
+from .obj_objectives import Objectives
 from .opportunities import Opportunities
 from .payments import Payments
-from .purchase_orders import PurchaseOrders
-from .sc_competitors import ScCompetitors
-from .support_contracts import SupportContracts
-from .services import Services
+from .purchase_order import PurchaseOrders
+from .sc_competitor import Competitor
+from .sc_contract import SupportContracts
+from .sc_contract_management import Services
 from .service_centers import ServiceCenters
 from .tasks import Tasks
-from .timesheet import Timesheet
+from .timesheet import Timesheets
 from .users import Users
 from .vendors import Vendors
 
@@ -47,22 +47,22 @@ __all__ = [
     'SarvModule',
     'Accounts',
     'ACLRoles',
-    'AosContracts',
-    'AosInvoices',
-    'AosPdfTemplates',
-    'AosProductCategories',
-    'AosProducts',
-    'AosQuotes',
+    'SalesContracts',
+    'Invoices',
+    'PDFTemplates',
+    'ProductCategories',
+    'Products',
+    'Quotes',
     'Appointments',
     'Approvals',
-    'AsolProjects',
+    'Projects',
     'Branches',
     'Bugs',
     'Calls',
     'Cases',
     'Communications',
-    'CommunicationsTargets',
-    'CommunicationsTemplates',
+    'CommunicationTargets',
+    'CommunicationTemplates',
     'Campaigns',
     'Contacts',
     'Deposits',
@@ -73,18 +73,18 @@ __all__ = [
     'Leads',
     'Meetings',
     'Notes',
-    'ObjConditions',
-    'ObjIndicators',
-    'ObjObjectives',
+    'Conditions',
+    'Indicators',
+    'Objectives',
     'Opportunities',
     'Payments',
     'PurchaseOrders',
-    'ScCompetitors',
+    'Competitor',
     'SupportContracts',
     'Services',
     'ServiceCenters',
     'Tasks',
-    'Timesheet',
+    'Timesheets',
     'Users',
     'Vendors',
 ]
