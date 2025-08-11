@@ -33,7 +33,7 @@ from .obj_objectives import Objectives
 from .opportunities import Opportunities
 from .payments import Payments
 from .purchase_order import PurchaseOrders
-from .sc_competitor import Competitor
+from .sc_competitor import Competitors
 from .sc_contract import SupportContracts
 from .sc_contract_management import Services
 from .service_centers import ServiceCenters
@@ -79,7 +79,7 @@ __all__ = [
     'Opportunities',
     'Payments',
     'PurchaseOrders',
-    'Competitor',
+    'Competitors',
     'SupportContracts',
     'Services',
     'ServiceCenters',

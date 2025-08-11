@@ -37,7 +37,7 @@ class ModulesMixin:
         self.Opportunities = Opportunities(self)
         self.Payments = Payments(self)
         self.PurchaseOrders = PurchaseOrders(self)
-        self.Competitor = Competitor(self)
+        self.Competitors = Competitors(self)
         self.SupportContracts = SupportContracts(self)
         self.Services = Services(self)
         self.ServiceCenters = ServiceCenters(self)

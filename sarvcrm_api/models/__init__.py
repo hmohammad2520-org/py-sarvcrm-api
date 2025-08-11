@@ -33,12 +33,12 @@ from .obj_objective import ObjObjective
 from .opportunity import Opportunity
 from .payment import Payment
 from .purchase_order import PurchaseOrder
-from .sc_competitor import ScCompetitor
+from .sc_competitor import Competitor
 from .sc_contract import ScContract
 from .service import Service
 from .service_center import ServiceCenter
 from .task import Task
-from .sheet import Sheet
+from .sheet import Timesheet
 from .support_contract import SupportContract
 from .user import User
 from .vendor import Vendor
@@ -80,12 +80,12 @@ __all__ = [
     'Opportunity',
     'Payment',
     'PurchaseOrder',
-    'ScCompetitor',
+    'Competitor',
     'ScContract',
     'Service',
     'ServiceCenter',
     'Task',
-    'Sheet',
+    'Timesheet',
     'SupportContract',
     'User',
     'Vendor',

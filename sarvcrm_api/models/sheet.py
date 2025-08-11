@@ -1,5 +1,5 @@
 from ._base import SarvModel
 
 
-class Sheet(SarvModel):
+class Timesheet(SarvModel):
     pass
