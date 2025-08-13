@@ -5,7 +5,10 @@
 .temp/
 .log/
 .db/
+.dev/
 __cache__/
 
 # abc Files
 .env
+temp_*.*
+dev_*.*
