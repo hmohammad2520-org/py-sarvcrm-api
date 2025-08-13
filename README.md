@@ -85,6 +85,12 @@ This method on `Users` module will give the logged in user details.
 my_user = client.Users.get_me()
 ```
 
+Also you can use `user_id` property of client to get current users `id`
+
+```pyton
+print(client.user_id)
+```
+
 
 ### Initiate client with `ENVMod`
 You can load the client with environment variables using `ENVMod` class. This is useful for development
