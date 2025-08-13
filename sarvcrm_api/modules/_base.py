@@ -1,7 +1,9 @@
 from typing import Any, Dict, List, Optional, Type
 from classmods import logwrap
+
 from ..models._base import SarvModel
-from sarvcrm_api._type_hints import SarvGetMethods
+from .._exceptions import SarvServerErrors
+from .._type_hints import SarvGetMethods
 
 BASE_LIMIT = 300
 BASE_OFFSET = 0
@@ -214,7 +216,9 @@ class SarvModule:
             AttributeError: If module does not support this operation.
         """
         if not self._assigned_field:
-            raise AttributeError('This module `{self.__class__.__name__}` does not support reading assgined objects.')
+            raise SarvServerErrors.UnsupportedMethod(
+                'This module `{self.__class__.__name__}` does not support reading assgined objects.'
+            )
 
         return self.read_list(
             query=f"{self._table_name}.{self._assigned_field}='{self._client.user_id}'",

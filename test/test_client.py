@@ -1,6 +1,6 @@
 from classmods import ENVMod
 from requests import HTTPError
-from sarvcrm_api import SarvClient, SarvServerError
+from sarvcrm_api import SarvClient, SarvServerErrors
 
 
 client = None
@@ -29,7 +29,7 @@ def test_logout():
         try: 
             client.Accounts.read_list(limit=1)
 
-        except (HTTPError, SarvException):
+        except (HTTPError, SarvServerErrors):
             return
 
         finally:

@@ -3,7 +3,7 @@ from classmods import ENVMod, logwrap
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Literal, Optional, Self
 from .modules import SarvModule
-from ._exceptions import SarvServerError
+from ._exceptions import SarvServerErrors
 from ._mixins import ModulesMixin
 from ._type_hints import TimeOutputMethods, SarvLanguageType, RequestMethod, SarvGetMethods
 from ._url import SarvURL, SarvFrontend
@@ -177,13 +177,13 @@ class SarvClient(ModulesMixin):
         # Sometimes servers send other content types instead of json
         except json.decoder.JSONDecodeError:
             if 'MySQL Error' in response.text:
-                raise SarvServerError.MYSQLError(
+                raise SarvServerErrors.MYSQLError(
                     'There are Errors in the database\n'
                     'if you are sending raw SQL Query to server\n'
                     'please check syntax and varible names'
                 )
             else:
-                raise SarvServerError(
+                raise SarvServerErrors(
                     'Unkhown error from Server while parsing json'
                 )
 
@@ -236,7 +236,7 @@ class SarvClient(ModulesMixin):
         token = data.get('token')
 
         if token is None:
-            raise SarvServerError('client did not get token from login request')
+            raise SarvServerErrors('client did not get token from login request')
 
         self._token = token
         return self._token

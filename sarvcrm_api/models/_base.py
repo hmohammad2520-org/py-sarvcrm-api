@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from typing import Any, Callable, Dict, List, Self, Type, Optional, Union
-from .._exceptions import SarvServerError
+from .._exceptions import SarvServerErrors
 
 
 class FieldMeta:
@@ -103,7 +103,7 @@ class SarvModel:
             
             if not _override_required and meta.required and raw_value is None:
                 if not field == 'id':
-                    raise SarvServerError.RequiredField(f'This field is required: {field}')
+                    raise SarvServerErrors.RequiredField(f'This field is required: {field}')
 
             cast_func = self._casting.get(field, str)
 
@@ -121,7 +121,7 @@ class SarvModel:
         if data:
             return cls(_override_required=True, **data)
 
-        raise SarvServerError.ItemNotFound(f'Item with id not found: {uid}')
+        raise SarvServerErrors.ItemNotFound(f'Item with id not found: {uid}')
 
     @classmethod
     def query(cls, **filters) -> List[Self]:
