@@ -91,6 +91,14 @@ Also you can use `user_id` property of client to get current users `id`
 print(client.user_id)
 ```
 
+#### **Get current user items**
+
+Use `read_user_created` or `read_user_assigned` to get items created or assigned to the current user.
+
+```python
+created_items = client.Leads.read_user_created(limit=10)
+assigned_items = client.Tasks.read_user_assigned(limit=2)
+```
 
 ### Initiate client with `ENVMod`
 You can load the client with environment variables using `ENVMod` class. This is useful for development
