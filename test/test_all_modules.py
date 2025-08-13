@@ -1,6 +1,5 @@
 from classmods import ENVMod
-from requests import HTTPError
-from sarvcrm_api import SarvClient, SarvModule, SarvException
+from sarvcrm_api import SarvClient, SarvModule
 
 
 client = None
