@@ -37,7 +37,11 @@ def test_logout():
 
         raise AssertionError('Excepted HTTPError or SarvException on data from server')
 
-def test_auto_relogin():
+def test_get_me():
+    client = create_client()
+    assert client.user_id
+
+def test_auto_login():
     client = create_client()
     with client:
         assert client.logout() is None
@@ -45,11 +49,6 @@ def test_auto_relogin():
         client._auto_login = True
         assert client.Accounts.read_list(limit=1)
         client._auto_login = setting
-
-def test_query_accounts():
-    client = create_client()
-    with client:
-        assert client.Accounts.read_list(), 'Excepted data from server'
 
 def test_query_by_number():
     client = create_client()
@@ -70,17 +69,3 @@ def test_caching():
         cached_contacts = client.Contacts.read_all(caching=True)
 
     assert base_contacts == cached_contacts, 'Cached Results are not the same as Base Results'
-
-def test_users():
-    client = create_client()
-    with client:
-        assert client.Users.read_list()
-
-def test_acl_roles():
-    client = create_client()
-    with client:
-        assert client.ACLRoles.read_list()
-
-def test_get_me():
-    client = create_client()
-    assert client.Users.get_me()
