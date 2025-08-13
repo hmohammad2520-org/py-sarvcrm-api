@@ -62,6 +62,15 @@ class SarvClient(ModulesMixin):
         self.enable_caching() if self._caching else self.disable_caching()
 
         super().__init__()
+        self._user_id: str | None = None
+
+    @property
+    def user_id(self) -> str:
+        if not self._user_id:
+            self._user_id = self.Users.get_me(selected_fields=['id']).get('id', '')
+
+        assert self._user_id, 'Unable to retrive user_id from server.'
+        return self._user_id
 
     @logwrap(before=False, after=('DEBUG','Added Headers to Session'))
     def _add_headers(self) -> None:
