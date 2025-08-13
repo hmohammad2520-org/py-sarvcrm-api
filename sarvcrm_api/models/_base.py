@@ -138,7 +138,7 @@ class SarvModel:
 
     @classmethod
     def all(cls) -> List[Self]:
-        raw_items = cls.module.read_list_all()
+        raw_items = cls.module.read_all()
         return [cls(**item) for item in raw_items]
 
     def to_dict(self) -> Dict[str, Any]:
