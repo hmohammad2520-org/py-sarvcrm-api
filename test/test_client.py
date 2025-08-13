@@ -66,8 +66,8 @@ def test_caching():
     client = create_client()
     with client:
         client.enable_caching()
-        base_contacts = client.Contacts.read_list_all(caching=True, expire_after=5)
-        cached_contacts = client.Contacts.read_list_all(caching=True)
+        base_contacts = client.Contacts.read_all(caching=True, expire_after=5)
+        cached_contacts = client.Contacts.read_all(caching=True)
 
     assert base_contacts == cached_contacts, 'Cached Results are not the same as Base Results'
 
