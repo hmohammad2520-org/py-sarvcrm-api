@@ -17,8 +17,9 @@ class SarvModule:
         _client (SarvClient): The client instance used to send requests to the Sarv CRM API.
     """
     _module_name: str = ''
-    _label_en: str = 'BASE_CLASS'
-    _label_pr: str = 'کلاس اصلی'
+    _table_name: str = ''
+    _label_en: str = ''
+    _label_pr: str = ''
 
     @logwrap(before='Initiating Sarvmodule: args:{args} - kwargs:{kwargs}', after=False)
     def __init__(self, _client):
@@ -28,6 +29,13 @@ class SarvModule:
         Args:
             _client (SarvClient): The client used for making API requests to Sarv CRM.
         """
+        required_attribs = (self._module_name, self._table_name, self._label_en, self._label_pr)
+        if any(required_attribs):
+            raise NotImplementedError(
+                f"Please implement these parameters: " + 
+                ", ".join(required_attrib.__qualname__ for required_attrib in required_attribs if required_attrib)
+            )
+
         from sarvcrm_api import SarvClient
         self._client: SarvClient = _client
 
@@ -71,7 +79,7 @@ class SarvModule:
             offset: int = BASE_OFFSET,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> list[dict]:
+        ) -> list[dict[str, Any]]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
 
@@ -112,7 +120,7 @@ class SarvModule:
             item_buffer: int = BASE_LIMIT,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> list[dict]:
+        ) -> list[dict[str, Any]]:
         """
         Retrieves all of items from the module, optionally filtered by the specified parameters.
 
@@ -144,6 +152,29 @@ class SarvModule:
             offset += item_buffer
 
         return all_list
+
+    @logwrap(before='Reading users records list: args:{args} - kwargs:{kwargs}', after=False)
+    def read_list_user(
+            self,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> list[dict[str, Any]]:
+        """
+        Retrieves all of items from the module, optionally filtered by the specified parameters.
+
+        Args:
+            order_by (str, optional): A field to order the results by.
+            select_fields (list[str], optional): A list of fields to include in the response.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
+
+        Returns:
+            list: A list of all items from the module.
+        """
+        raise NotImplementedError
+
 
     @logwrap(before='Reading record: args:{args} - kwargs:{kwargs}', after=False)
     def read_record(
