@@ -210,7 +210,7 @@ class SarvModule:
             AttributeError: If module does not support this operation.
         """
         if not self._assigned_field:
-            raise AttributeError('This module does not support reading assgined objects.')
+            raise AttributeError('This module `{self.__class__.__name__}` does not support reading assgined objects.')
 
         return self.read_list(
             query=f"{self._table_name}.{self._assigned_field}='{self._client.user_id}'",
