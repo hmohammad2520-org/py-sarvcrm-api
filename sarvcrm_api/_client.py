@@ -25,6 +25,7 @@ class SarvClient(ModulesMixin):
             url: Optional[str] = None,
             frontend_url: Optional[str] = None,
             login_type: Optional[str] = None,
+            auto_login: bool = True,
             language: SarvLanguageType = 'en_US',
             caching: bool = False,
             cache_backend: Literal['memory', 'sqlite'] = 'memory',
@@ -40,6 +41,7 @@ class SarvClient(ModulesMixin):
             url (Optional[str]): The base URL for the SarvCRM API if you use local instance.
             frontend_url (Optional[str]): The base URL for the SarvCRM frontend if you use local instance.
             login_type (Optional[str]): The login type for authentication.
+            auto_login (bool): Try to login once on status code 401, 403
             language (SarvLanguageType): The language to use, default is 'en_US'.
             caching (bool): Cache the responses from server.
             cache_backend(Literal['memory', 'sqlite']): Saving backend for cached responses.
@@ -50,6 +52,7 @@ class SarvClient(ModulesMixin):
         self._url = url or SarvURL
         self._frontend_url = frontend_url or SarvFrontend
         self._login_type = login_type
+        self._auto_login = auto_login
         self._language = language
         self._caching = caching
         self._cache_backend = cache_backend
@@ -97,6 +100,7 @@ class SarvClient(ModulesMixin):
             head_params: Optional[dict] = None,
             get_params: Optional[dict] = None,
             post_params: Optional[dict] = None,
+            auto_login: Optional[bool] = None,
             caching: bool = False,
             expire_after: int = 300,
         ) -> Any:
@@ -108,6 +112,7 @@ class SarvClient(ModulesMixin):
             head_parms (dict): The headers for the request.
             get_parms (dict): The GET parameters for the request.
             post_params (dict): The POST parameters for the request.
+            auto_login (Optional(bool)): Whether to auto login on status code 401, 403.
             caching (bool, optional): Whether to cache the results.
             expire_after (int, optional): The time in seconds to cache the results.
 
@@ -124,6 +129,8 @@ class SarvClient(ModulesMixin):
         head_params = {k: v for k, v in head_params.items() if v is not None} 
         get_params = {k: v for k, v in get_params.items() if v is not None}
         post_params = {k: v for k, v in post_params.items() if v is not None}
+
+        auto_login = auto_login or self._auto_login
 
         if self._token:
             head_params['Authorization'] = f'Bearer {self._token}'
@@ -171,7 +178,26 @@ class SarvClient(ModulesMixin):
                     'Unkhown error from Server while parsing json'
                 )
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+
+        except requests.HTTPError as e:
+            if not (auto_login and response.status_code in (401, 403)):
+                raise e
+
+            head_params.pop('Authorization', None)
+            self.login()
+
+            return self._send_request(
+                request_method=request_method,
+                endpoint=endpoint,
+                head_params=head_params,
+                get_params=get_params,
+                post_params=post_params,
+                auto_login=False,
+                caching=False,
+            )
+
         return response_dict.get('data', {})
 
     @logwrap(before=('INFO', 'Logging to Sarvcrm'), after=False)
@@ -194,6 +220,8 @@ class SarvClient(ModulesMixin):
             request_method='POST',
             get_params=self._create_get_params('Login'), 
             post_params=post_params,
+            caching=False,
+            auto_login=False,
         )
 
         token = data.get('token')

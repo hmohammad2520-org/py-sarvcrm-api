@@ -20,6 +20,32 @@ def test_login():
     with client:
         assert client.login(), 'Excepted token from server'
 
+def test_logout():
+    client = create_client()
+    with client:
+        assert client.logout() is None
+        setting = client._auto_login
+        client._auto_login = False
+        try: 
+            client.Accounts.read_list(limit=1)
+
+        except (HTTPError, SarvException):
+            return
+
+        finally:
+            client._auto_login = setting
+
+        raise AssertionError('Excepted HTTPError or SarvException on data from server')
+
+def test_auto_relogin():
+    client = create_client()
+    with client:
+        assert client.logout() is None
+        setting = client._auto_login
+        client._auto_login = True
+        assert client.Accounts.read_list(limit=1)
+        client._auto_login = setting
+
 def test_query_accounts():
     client = create_client()
     with client:
@@ -35,14 +61,6 @@ def test_url_generations():
     assert client.Accounts.get_url_detail_view('ANY_PK_IS_ACCEPTABLE')
     assert client.Accounts.get_url_edit_view('ANY_PK_IS_ACCEPTABLE')
     assert client.Accounts.get_url_list_view()
-
-def test_logout():
-    client = create_client()
-    with client:
-        assert client.logout() is None
-        try: client.Accounts.read_list(limit=1)
-        except (HTTPError, SarvException): return
-        raise AssertionError('Excepted HTTPError or SarvException on data from server')
 
 def test_caching():
     client = create_client()
