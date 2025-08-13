@@ -80,3 +80,7 @@ def test_acl_roles():
     client = create_client()
     with client:
         assert client.ACLRoles.read_list()
+
+def test_get_me():
+    client = create_client()
+    assert client.Users.get_me()

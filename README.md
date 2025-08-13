@@ -27,7 +27,7 @@ The **SarvClient** module provides a Python interface for interacting with the S
 
 ## Quick Start
 
-### Example Usage
+#### **CRUD**
 
 ```python
 from sarvcrm_api import SarvClient
@@ -69,14 +69,22 @@ with client:
     print(f'Updated item id: {updated_item}')
 
     # Search for data by phone number
-    result = client.search_by_number(number="02145885000", module=client.Accounts) # module is optional
+    result = client.search_by_number(number="02145885000", module=client.Accounts)  # module is optional
     print(f'Search by number result: {result}')
 
     # Delete Item
     deleted_item = client.Accounts.delete(uid)
     print(f'Deleted item: {deleted_item}')
-
 ```
+
+#### **Get me**
+
+This method on `Users` module will give the logged in user details.
+
+```python
+my_user = client.Users.get_me()
+```
+
 
 ### Initiate client with `ENVMod`
 You can load the client with environment variables using `ENVMod` class. This is useful for development
