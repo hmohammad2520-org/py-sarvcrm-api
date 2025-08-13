@@ -11,7 +11,6 @@ class ModulesMixin:
         self.ProductCategories = ProductCategories(self)
         self.Products = Products(self)
         self.Quotes = Quotes(self)
-        self.Appointments = Appointments(self)
         self.Approvals = Approvals(self)
         self.Projects = Projects(self)
         self.Branches = Branches(self)

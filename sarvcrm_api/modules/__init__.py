@@ -7,7 +7,6 @@ from .aos_pdf_templates import PDFTemplates
 from .aos_product_categories import ProductCategories      
 from .aos_products import Products
 from .aos_quotes import Quotes
-from .appointments import Appointments
 from .approval import Approvals
 from .asol_project import Projects
 from .branches import Branches
@@ -54,7 +53,6 @@ __all__ = [
     'ProductCategories',
     'Products',
     'Quotes',
-    'Appointments',
     'Approvals',
     'Projects',
     'Branches',
