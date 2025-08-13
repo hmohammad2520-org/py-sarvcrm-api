@@ -3,5 +3,6 @@ from ._mixins import UrlMixin
 
 class Leads(SarvModule, UrlMixin):
     _module_name = 'Leads'
+    _table_name = 'leads'
     _label_en = 'Leads'
     _label_pr = 'سرنخ'

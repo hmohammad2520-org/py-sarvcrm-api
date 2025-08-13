@@ -3,5 +3,6 @@ from ._mixins import UrlMixin
 
 class Payments(SarvModule, UrlMixin):
     _module_name = 'Payments'
+    _table_name = 'payments'
     _label_en = 'Payments'
     _label_pr = 'پرداخت ها'

@@ -3,5 +3,6 @@ from ._mixins import UrlMixin
 
 class Notifications(SarvModule, UrlMixin):
     _module_name = 'Notifications'
+    _table_name = 'notifications'
     _label_en = 'Notifications'
     _label_pr = 'نوتیفیکیشن'
