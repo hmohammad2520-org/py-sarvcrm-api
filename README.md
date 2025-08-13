@@ -27,7 +27,7 @@ The **SarvClient** module provides a Python interface for interacting with the S
 
 ## Quick Start
 
-### Example Usage
+#### **CRUD**
 
 ```python
 from sarvcrm_api import SarvClient
@@ -55,7 +55,7 @@ with client:
     print(f'Single Account record: {record}')
 
     # Use query and selected_fields to read item
-    opportunity = client.Opportunities.read_list(query="opportunities.id='UID'", selected_fields=['fullname'])
+    opportunity = client.Opportunities.read_list(query="opportunities.id='<UID>'", selected_fields=['fullname'])
     print(f'Opportunity: {opportunity}')
 
     # Read List of items
@@ -69,13 +69,35 @@ with client:
     print(f'Updated item id: {updated_item}')
 
     # Search for data by phone number
-    result = client.search_by_number(number="02145885000", module=client.Accounts) # module is optional
+    result = client.search_by_number(number="02145885000", module=client.Accounts)  # module is optional
     print(f'Search by number result: {result}')
 
     # Delete Item
     deleted_item = client.Accounts.delete(uid)
     print(f'Deleted item: {deleted_item}')
+```
 
+#### **Get me**
+
+This method on `Users` module will give the logged in user details.
+
+```python
+my_user = client.Users.get_me()
+```
+
+Also you can use `user_id` property of client to get current users `id`
+
+```pyton
+print(client.user_id)
+```
+
+#### **Get current user items**
+
+Use `read_user_created` or `read_user_assigned` to get items created or assigned to the current user.
+
+```python
+created_items = client.Leads.read_user_created(limit=10)
+assigned_items = client.Tasks.read_user_assigned(limit=2)
 ```
 
 ### Initiate client with `ENVMod`

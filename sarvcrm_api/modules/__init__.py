@@ -7,7 +7,6 @@ from .aos_pdf_templates import PDFTemplates
 from .aos_product_categories import ProductCategories      
 from .aos_products import Products
 from .aos_quotes import Quotes
-from .appointments import Appointments
 from .approval import Approvals
 from .asol_project import Projects
 from .branches import Branches
@@ -27,6 +26,7 @@ from .knowledge_base_categories import KnowledgeBaseCategories
 from .leads import Leads
 from .meetings import Meetings
 from .notes import Notes
+from .notifications import Notifications
 from .obj_conditions import Conditions
 from .obj_indicators import Indicators
 from .obj_objectives import Objectives
@@ -53,7 +53,6 @@ __all__ = [
     'ProductCategories',
     'Products',
     'Quotes',
-    'Appointments',
     'Approvals',
     'Projects',
     'Branches',
@@ -73,6 +72,7 @@ __all__ = [
     'Leads',
     'Meetings',
     'Notes',
+    'Notifications',
     'Conditions',
     'Indicators',
     'Objectives',

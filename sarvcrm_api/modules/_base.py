@@ -19,7 +19,8 @@ class SarvModule:
         _client (SarvClient): The client instance used to send requests to the Sarv CRM API.
     """
     _module_name: str = ''
-    _tabel_name:str = ''
+    _table_name: str = ''
+    _assigned_field: str = ''
     _label_en: str = ''
     _label_pr: str = ''
     _item_class: Type[SarvModel]
@@ -31,7 +32,18 @@ class SarvModule:
 
         Args:
             _client (SarvClient): The client used for making API requests to Sarv CRM.
+        
+        Raises:
+            NotImplementedError: If required attibutes are not set.
         """
+        required_fields = ["_module_name", "_table_name", "_label_en", "_label_pr"]
+        missing = [name for name in required_fields if not getattr(self, name)]
+
+        if missing:
+            raise NotImplementedError(
+                f"Implement parameter in `{self.__class__.__name__}`: {", ".join(missing)}"
+            )
+
         from sarvcrm_api import SarvClient
         if not all(
                 (
@@ -87,7 +99,7 @@ class SarvModule:
             offset: int = BASE_OFFSET,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> List[Dict]:
+        ) -> list[dict[str, Any]]:
         """
         Retrieves a list of items from the module, optionally filtered by the specified parameters.
 
@@ -120,7 +132,7 @@ class SarvModule:
         )
 
     @logwrap(before='Reading all records list: args:{args} - kwargs:{kwargs}', after=False)
-    def read_list_all(
+    def read_all(
             self,
             query: Optional[str] = None,
             order_by: Optional[str] = None,
@@ -128,7 +140,7 @@ class SarvModule:
             item_buffer: int = BASE_LIMIT,
             caching: bool = False,
             expire_after: int = 300,
-        ) -> List[Dict[str, Any]]:
+        ) -> list[dict[str, Any]]:
         """
         Retrieves all of items from the module, optionally filtered by the specified parameters.
 
@@ -160,6 +172,68 @@ class SarvModule:
             offset += item_buffer
 
         return all_list
+
+    @logwrap(before='Reading user created list: args:{args} - kwargs:{kwargs}', after=False)
+    def read_user_created(
+            self,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> list[dict[str, Any]]:
+        """
+        Retrieves current user created items from the module, optionally filtered by the specified parameters.
+
+        Args:
+            order_by (str, optional): A field to order the results by.
+            select_fields (list[str], optional): A list of fields to include in the response.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
+
+        Returns:
+            list: A list of all items from the module.
+        """
+        return self.read_list(
+            query=f"{self._table_name}.created_by='{self._client.user_id}'",
+            order_by=order_by,
+            selected_fields=select_fields,
+            caching=caching,
+            expire_after=expire_after,
+        )
+
+    @logwrap(before='Reading user assigned list: args:{args} - kwargs:{kwargs}', after=False)
+    def read_user_assgined(
+            self,
+            order_by: Optional[str] = None,
+            select_fields: Optional[list[str]] = None,
+            caching: bool = False,
+            expire_after: int = 300,
+        ) -> list[dict[str, Any]]:
+        """
+        Retrieves user assigned records from the module, optionally filtered by the specified parameters.
+
+        Args:
+            order_by (str, optional): A field to order the results by.
+            select_fields (list[str], optional): A list of fields to include in the response.
+            caching (bool, optional): Whether to cache the results.
+            expire_after (int, optional): The time in seconds to cache the results.
+
+        Returns:
+            list: A list of all items from the module.
+        
+        Raises:
+            AttributeError: If module does not support this operation.
+        """
+        if not self._assigned_field:
+            raise AttributeError('This module `{self.__class__.__name__}` does not support reading assgined objects.')
+
+        return self.read_list(
+            query=f"{self._table_name}.{self._assigned_field}='{self._client.user_id}'",
+            order_by=order_by,
+            selected_fields=select_fields,
+            caching=caching,
+            expire_after=expire_after,
+        )
 
     @logwrap(before='Reading record: args:{args} - kwargs:{kwargs}', after=False)
     def read_record(

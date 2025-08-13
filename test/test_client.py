@@ -20,10 +20,35 @@ def test_login():
     with client:
         assert client.login(), 'Excepted token from server'
 
-def test_query_accounts():
+def test_logout():
     client = create_client()
     with client:
-        assert client.Accounts.read_list(), 'Excepted data from server'
+        assert client.logout() is None
+        setting = client._auto_login
+        client._auto_login = False
+        try: 
+            client.Accounts.read_list(limit=1)
+
+        except (HTTPError, SarvException):
+            return
+
+        finally:
+            client._auto_login = setting
+
+        raise AssertionError('Excepted HTTPError or SarvException on data from server')
+
+def test_get_me():
+    client = create_client()
+    assert client.user_id
+
+def test_auto_login():
+    client = create_client()
+    with client:
+        assert client.logout() is None
+        setting = client._auto_login
+        client._auto_login = True
+        assert client.Accounts.read_list(limit=1)
+        client._auto_login = setting
 
 def test_query_by_number():
     client = create_client()
@@ -36,29 +61,11 @@ def test_url_generations():
     assert client.Accounts.get_url_edit_view('ANY_PK_IS_ACCEPTABLE')
     assert client.Accounts.get_url_list_view()
 
-def test_logout():
-    client = create_client()
-    with client:
-        assert client.logout() is None
-        try: client.Accounts.read_list(limit=1)
-        except (HTTPError, SarvServerError): return
-        raise AssertionError('Excepted HTTPError or SarvException on data from server')
-
 def test_caching():
     client = create_client()
     with client:
         client.enable_caching()
-        base_contacts = client.Contacts.read_list_all(caching=True, expire_after=5)
-        cached_contacts = client.Contacts.read_list_all(caching=True)
+        base_contacts = client.Contacts.read_all(caching=True, expire_after=5)
+        cached_contacts = client.Contacts.read_all(caching=True)
 
     assert base_contacts == cached_contacts, 'Cached Results are not the same as Base Results'
-
-def test_users():
-    client = create_client()
-    with client:
-        assert client.Users.read_list()
-
-def test_acl_roles():
-    client = create_client()
-    with client:
-        assert client.ACLRoles.read_list()

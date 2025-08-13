@@ -4,6 +4,8 @@ from ..models import Opportunity
 
 class Opportunities(SarvModule, UrlMixin):
     _module_name = 'Opportunities'
+    _table_name = 'opportunities'
+    _assigned_field = 'assigned_user_id'
     _label_en = 'Opportunities'
     _label_pr = 'فرصت ها'
     _item_class = Opportunity

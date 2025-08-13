@@ -4,6 +4,8 @@ from ..models import Email
 
 class Emails(SarvModule, UrlMixin):
     _module_name = 'Emails'
+    _table_name = 'emails'
+    _assigned_field = 'assigned_user_id'
     _label_en = 'Emails'
     _label_pr = 'ایمیل ها'
     _item_class = Email
