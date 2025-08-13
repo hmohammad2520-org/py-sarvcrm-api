@@ -27,6 +27,7 @@ from .knowledge_base_categories import KnowledgeBaseCategories
 from .leads import Leads
 from .meetings import Meetings
 from .notes import Notes
+from .notifications import Notifications
 from .obj_conditions import Conditions
 from .obj_indicators import Indicators
 from .obj_objectives import Objectives
@@ -73,6 +74,7 @@ __all__ = [
     'Leads',
     'Meetings',
     'Notes',
+    'Notifications',
     'Conditions',
     'Indicators',
     'Objectives',
