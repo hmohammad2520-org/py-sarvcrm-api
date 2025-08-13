@@ -31,6 +31,7 @@ class ModulesMixin:
         self.Leads = Leads(self)
         self.Meetings = Meetings(self)
         self.Notes = Notes(self)
+        self.Notifications = Notifications(self)
         self.Conditions = Conditions(self)
         self.Indicators = Indicators(self)
         self.Objectives = Objectives(self)
