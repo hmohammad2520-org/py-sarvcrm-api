@@ -36,7 +36,7 @@ class SarvModule:
         Raises:
             NotImplementedError: If required attibutes are not set.
         """
-        required_fields = ["_module_name", "_table_name", "_label_en", "_label_pr"]
+        required_fields = ["_module_name", "_table_name", "_label_en", "_label_pr", "_item_class"]
         missing = [name for name in required_fields if not getattr(self, name)]
 
         if missing:
@@ -45,17 +45,6 @@ class SarvModule:
             )
 
         from sarvcrm_api import SarvClient
-        if not all(
-                (
-                    self._module_name,
-#                    self._tabel_name,
-                    self._label_en,
-                    self._label_pr,
-                    self._item_class,
-                )
-            ):
-            raise NotImplementedError(f'One of base attributes is not set for {self.__class__}')
-
         self._client: SarvClient = _client
         self._item_class._init_module(self)
 
